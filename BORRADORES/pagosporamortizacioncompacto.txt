@@ -1,0 +1,227 @@
+Sub BuscarRegistroPrestamoPorID(idBuscado As Variant)
+'Sub BuscarRegistroPrestamoPorID(idBuscado As Long)
+    Dim ws, wss As Worksheet
+    Dim tbl As ListObject
+    Dim fila, fila2 As ListRow
+    Dim fechaInicio As Date
+    Dim fechaFin As Date
+    Dim maxMeses As Long
+    Dim mesesCalculados As Long
+    Dim resultadoFinal As Long
+
+    Set ws = ThisWorkbook.Sheets("PRESTAMOS")
+    Set wss = ThisWorkbook.Sheets("PAGOS")
+    Set tbl = ws.ListObjects("PRESTAMOS")
+    Set tb2 = wss.ListObjects("PAGOS")
+
+    For Each fila In tbl.ListRows
+        If IsNumeric(fila.Range(1, 1).Value) Then
+            If CLng(fila.Range(1, 1).Value) = idBuscado Then
+                Select Case True
+                Case InStr(1, fila.Range(1, 10).Value, "AMORTIZACION FAMILIAR", vbTextCompare) > 0 _
+                Or InStr(1, fila.Range(1, 10).Value, "PAGO", vbTextCompare) > 0
+                MsgBox "AMORTIZACION FAMILIAR"
+                Me.tbcodsocio.Text = fila.Range(1, 2).Value
+                Me.cmbnomsocpg.Text = fila.Range(1, 3).Value
+                Me.tbmontprstpg.Text = Replace(Round(fila.Range(1, 4).Value / fila.Range(1, 6).Value, 2), ",", ".")
+                Me.tbintprestpg.Text = Replace((fila.Range(1, 4).Value * fila.Range(1, 7).Value), ",", ".")
+                Me.tb1pg.Text = fila.Range(1, 5).Value
+                Me.tb2pg.Text = fila.Range(1, 6).Value
+                Me.tb5pg.Text = Round(fila.Range(1, 4).Value / fila.Range(1, 6).Value + fila.Range(1, 4).Value * fila.Range(1, 7).Value, 2)
+                Me.tb6pg.Text = fila.Range(1, 9).Value
+                
+                ''sumas de monto e interes
+                Dim ws3 As Worksheet
+                Set ws3 = ThisWorkbook.Sheets("PAGOS")
+            
+                Dim prestamoBuscado As Variant
+                prestamoBuscado = idBuscado ' Cambia esto por el número de préstamo que deseas sumar
+            
+                Dim ultimaFila As Long
+                ultimaFila = ws3.Cells(ws3.Rows.Count, "D").End(xlUp).Row
+            
+                Dim totalMonto As Double
+                Dim totalInteres As Double
+                Dim monto, interes As Double
+                Dim contadorFamiliar As Integer
+                monto = Replace(Round(fila.Range(1, 4).Value, 2), ",", ".")
+                interes = Round(fila.Range(1, 8).Value, 2)
+                contadorFamiliar = 0
+                
+                Dim i As Long
+                For i = 3 To ultimaFila
+                    If ws3.Cells(i, 4).Value = prestamoBuscado Then
+                        totalMonto = totalMonto + ws3.Cells(i, 5).Value
+                        totalInteres = totalInteres + ws3.Cells(i, 8).Value
+                        contadorFamiliar = contadorFamiliar + 1
+                    Else
+                    contadorFamiliar = 1
+                    End If
+                Next i
+            
+                ' Mostrar resultados en los TextBox del formulario
+                Me.tbx7.Value = Format(Round(monto - totalMonto, 2), "#,##0.00")
+                Me.tbx8.Value = interes - totalInteres
+                Me.tb3pg.Value = contadorFamiliar
+                Me.tb4pg.Value = fila.Range(1, 6).Value - contadorFamiliar
+                Me.tbcuotpg.Text = contadorFamiliar
+                Me.tbintpg.Text = contadorFamiliar
+                Exit Sub
+'                End If
+
+                Case InStr(1, fila.Range(1, 10).Value, "AMORTIZACION FRANCESA", vbTextCompare) > 0
+                MsgBox "AMORTIZACION FRANCESA"
+                    Dim montof, interesf, cuotaf, amortizacionf, cuotaftotal, interesftotal, amortizacionftotal, saldo2 As Double
+                    Dim plazof, plazo, periodoBuscado As Integer
+                    montof = fila.Range(1, 4).Value
+                    interesf = fila.Range(1, 7).Value
+                    plazof = fila.Range(1, 6).Value
+                    cuotaftotal = 0
+                    interesftotal = 0
+                    amortizacionftotal = 0
+                                    
+                    cuotaf = montof * (interesf * (1 + interesf) ^ plazof) / ((1 + interesf) ^ plazof - 1)
+                    saldo = montof
+                
+                Me.tbcodsocio.Text = fila.Range(1, 2).Value
+                Me.cmbnomsocpg.Text = fila.Range(1, 3).Value
+                Me.tb1pg.Text = fila.Range(1, 5).Value
+                Me.tb2pg.Text = fila.Range(1, 6).Value
+                
+                'sumas de monto e interes
+'                Dim ws3 As Worksheet
+                Set ws3 = ThisWorkbook.Sheets("PAGOS")
+            
+'                Dim prestamoBuscado As Variant
+                prestamoBuscado = idBuscado ' Cambia esto por el número de préstamo que deseas sumar
+            
+'                Dim ultimaFila As Long
+                ultimaFila = ws3.Cells(ws3.Rows.Count, "D").End(xlUp).Row
+            
+                monto = Replace(Round(fila.Range(1, 4).Value, 2), ",", ".")
+                interes = Round(fila.Range(1, 8).Value, 2)
+                
+'                Dim i As Long
+                For i = 3 To ultimaFila
+                    If ws3.Cells(i, 4).Value = prestamoBuscado Then
+                        totalMonto = totalMonto + ws3.Cells(i, 5).Value
+                        totalInteres = totalInteres + ws3.Cells(i, 8).Value
+                        contadorFamiliar = contadorFamiliar + 1
+                    Else
+                    contadorFamiliar = 1
+                    End If
+                Next i
+            
+                ' Mostrar resultados en los TextBox del formulario
+                Me.tbx7.Value = Format(Round(monto - totalMonto, 2), "#,##0.00")
+                Me.tbx8.Value = interes - totalInteres
+                Me.tb3pg.Value = contadorFamiliar
+                Me.tb4pg.Value = fila.Range(1, 6).Value - contadorFamiliar
+                Me.tbcuotpg.Text = contadorFamiliar
+                Me.tbintpg.Text = contadorFamiliar
+                
+                For k = 1 To plazof
+                    Dim interesCuota As Double
+                    interesCuota = saldo * interesf
+                    amortizacionf = cuotaf - interesCuota
+                    saldo = saldo - amortizacionf
+            
+'                     Acumular totales
+                    cuotaftotal = cuotaftotal + cuotaf
+                    interesftotal = interesftotal + interesCuota
+                    amortizacionftotal = amortizacionftotal + amortizacionf
+                    
+                     'Guardar valores del periodo específico
+                    If k = contadorFamiliar Then
+                        
+                        interesPeriodo = Round(interesCuota, 2)
+                        amortizacionPeriodo = Round(amortizacionf, 2)
+                    End If
+    
+                 Next k
+                Me.tbmontprstpg.Text = Round(amortizacionPeriodo, 2)
+                Me.tbintprestpg.Text = Round(interesPeriodo, 2)
+                Me.tb5pg.Text = Round(cuotaf, 2)
+                Me.tb6pg.Text = Round(cuotaftotal, 2)
+                
+                Case InStr(1, fila.Range(1, 10).Value, "AMORTIZACION ALEMANA", vbTextCompare) > 0
+                MsgBox "AMORTIZACION ALEMANA"
+'                    Dim montof, interesf, cuotaf, amortizacionf, cuotaftotal, interesftotal, amortizacionftotal, saldo2 As Double
+'                    Dim plazof, plazo, periodoBuscado As Integer
+                    montof = fila.Range(1, 4).Value
+                    interesf = fila.Range(1, 7).Value
+                    plazof = fila.Range(1, 6).Value
+                    cuotaftotal = 0
+                    interesftotal = 0
+                    amortizacionftotal = 0
+                                    
+                    amortizacionf = montof / plazof
+                    saldo = montof
+                    
+                Me.tbcodsocio.Text = fila.Range(1, 2).Value
+                Me.cmbnomsocpg.Text = fila.Range(1, 3).Value
+                Me.tb1pg.Text = fila.Range(1, 5).Value
+                Me.tb2pg.Text = fila.Range(1, 6).Value
+                
+                'sumas de monto e interes
+'                Dim ws3 As Worksheet
+                Set ws3 = ThisWorkbook.Sheets("PAGOS")
+            
+'                Dim prestamoBuscado As Variant
+                prestamoBuscado = idBuscado ' Cambia esto por el número de préstamo que deseas sumar
+            
+'                Dim ultimaFila As Long
+                ultimaFila = ws3.Cells(ws3.Rows.Count, "D").End(xlUp).Row
+            
+                monto = Replace(Round(fila.Range(1, 4).Value, 2), ",", ".")
+                interes = Round(fila.Range(1, 8).Value, 2)
+                
+'                Dim i As Long
+                For i = 3 To ultimaFila
+                    If ws3.Cells(i, 4).Value = prestamoBuscado Then
+                        totalMonto = totalMonto + ws3.Cells(i, 5).Value
+                        totalInteres = totalInteres + ws3.Cells(i, 8).Value
+                        contadorFamiliar = contadorFamiliar + 1
+                    Else
+                        contadorFamiliar = 1
+                    End If
+                Next i
+            
+                ' Mostrar resultados en los TextBox del formulario
+                Me.tbx7.Value = Format(Round(monto - totalMonto, 2), "#,##0.00")
+                Me.tbx8.Value = interes - totalInteres
+                Me.tb3pg.Value = contadorFamiliar
+                Me.tb4pg.Value = fila.Range(1, 6).Value - contadorFamiliar
+                Me.tbcuotpg.Text = contadorFamiliar
+                Me.tbintpg.Text = contadorFamiliar
+                
+                For k = 1 To plazof
+'                        Dim interesCuota As Double
+                    interesCuota = saldo * interesf
+                    cuotaf = interesCuota + amortizacionf
+                    saldo = saldo - amortizacionf
+            
+                    ' Acumular totales
+                    cuotaftotal = cuotaftotal + cuotaf
+                    interesftotal = interesftotal + interesCuota
+                    amortizacionftotal = amortizacionftotal + amortizacionf
+                    
+                    ' Guardar valores del periodo específico
+                    If k = contadorFamiliar Then
+                        
+                        interesPeriodo = Round(interesCuota, 2)
+                        amortizacionPeriodo = Round(amortizacionf, 2)
+                    End If
+
+                 Next k
+                 
+                Me.tbmontprstpg.Text = Round(amortizacionPeriodo, 2)
+                Me.tbintprestpg.Text = Round(interesPeriodo, 2)
+                Me.tb5pg.Text = Round(amortizacionPeriodo + interesPeriodo, 2)
+                Me.tb6pg.Text = Round(cuotaftotal, 2)
+                
+                End Select
+            End If
+        End If
+    Next fila
+End Sub

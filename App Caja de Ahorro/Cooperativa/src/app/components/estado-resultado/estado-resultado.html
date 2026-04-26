@@ -216,110 +216,131 @@
             </div>
         </div>
 
-        <div>
-            <h3 class="text-green-400 font-bold mb-4 uppercase">Arqueo de Efectivo</h3>
+        <div class="p-4 bg-gray-900 text-white rounded-lg">
+            <h3 class="text-green-400 font-bold mb-4 text-[10px] uppercase tracking-wider">Arqueo de Efectivo</h3>
 
-            <table class="w-full text-[10px] border-collapse">
+            <table class="w-full border-collapse mb-6">
                 <thead>
-                    <tr class="text-gray-400 border border-gray-700 bg-gray-900/50">
+                    <tr class="text-gray-400 border border-gray-700 bg-gray-800 text-[10px]">
                         <th class="border border-gray-700 p-1">DENOMIN</th>
                         <th class="border border-gray-700 p-1">FAJOS / 100</th>
                         <th class="border border-gray-700 p-1">LOMOS / 10</th>
                         <th class="border border-gray-700 p-1">SALDOS / 1</th>
                         <th class="border border-gray-700 p-1 text-red-400">UNIDADES</th>
-                        <th class="border border-gray-700 p-1 text-cyan-400">TOTAL</th>
+                        <!-- <th class="border border-gray-700 p-1 text-cyan-400">TOTAL</th> -->
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr class="bg-gray-700/50">
-                        <td colspan="6" class="text-center font-bold py-1">BILLETES</td>
+                    <tr class="bg-gray-700/50 text-[10px] font-bold">
+                        <td colspan="6" class="text-center py-1 border border-gray-700 uppercase">Billetes</td>
                     </tr>
-                    <tr *ngFor="let b of billetes" class="border border-gray-700">
-                        <td class="p-1 font-bold border border-gray-700">${{b.denominacion | number:'1.2-2'}}</td>
-                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="b.fajos"
-                                class="w-full bg-transparent text-center outline-none"></td>
-                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="b.lomos"
-                                class="w-full bg-transparent text-center outline-none"></td>
-                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="b.saldos"
-                                class="w-full bg-transparent text-center outline-none"></td>
-                        <td class="p-1 border border-gray-700 text-center text-red-400 font-bold">{{ calcularUnidades(b)
-                            }}</td>
-                        <td class="p-1 border border-gray-700 text-right text-cyan-400">${{ calcularUnidades(b) *
-                            b.denominacion | number:'1.2-2' }}</td>
+                    <tr *ngFor="let b of billetes" class="border border-gray-700 hover:bg-gray-800/30">
+                        <td class="p-1 font-bold border border-gray-700 text-[11px] bg-gray-900/20">${{b.denominacion |
+                            number:'1.2-2'}}</td>
+
+                        <td class="p-0 border border-gray-700">
+                            <input type="number" [(ngModel)]="b.fajos" (ngModelChange)="guardarProgreso()"
+                                class="w-full bg-transparent text-center outline-none text-base font-bold text-white py-1">
+                        </td>
+                        <td class="p-0 border border-gray-700">
+                            <input type="number" [(ngModel)]="b.lomos" (ngModelChange)="guardarProgreso()"
+                                class="w-full bg-transparent text-center outline-none text-base font-bold text-white py-1">
+                        </td>
+                        <td class="p-0 border border-gray-700">
+                            <input type="number" [(ngModel)]="b.saldos" (ngModelChange)="guardarProgreso()"
+                                class="w-full bg-transparent text-center outline-none text-base font-bold text-white py-1">
+                        </td>
+
+                        <td class="p-1 border border-gray-700 text-center text-red-400 font-bold text-base">
+                            {{ calcularUnidades(b) }}
+                        </td>
+                        <!-- <td class="p-1 border border-gray-700 text-right text-cyan-400 font-bold text-base">
+                            ${{ calcularUnidades(b) * b.denominacion | number:'1.2-2' }}
+                        </td> -->
                     </tr>
 
-                    <tr class="bg-gray-700/50">
-                        <td colspan="6" class="text-center font-bold py-1 border border-gray-700">MONEDAS</td>
+                    <tr class="bg-gray-700/50 text-[10px] font-bold">
+                        <td colspan="6" class="text-center py-1 border border-gray-700 uppercase">Monedas</td>
                     </tr>
-                    <tr *ngFor="let m of monedas" class="border border-gray-700">
-                        <td class="p-1 font-bold border border-gray-700">${{m.denominacion | number:'1.2-2'}}</td>
-                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="m.fajos"
-                                class="w-full bg-transparent text-center outline-none"></td>
-                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="m.lomos"
-                                class="w-full bg-transparent text-center outline-none"></td>
-                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="m.saldos"
-                                class="w-full bg-transparent text-center outline-none"></td>
-                        <td class="p-1 border border-gray-700 text-center text-red-400 font-bold">{{ calcularUnidades(m)
-                            }}</td>
-                        <td class="p-1 border border-gray-700 text-right text-cyan-400">${{ calcularUnidades(m) *
-                            m.denominacion | number:'1.2-2' }}</td>
+                    <tr *ngFor="let m of monedas" class="border border-gray-700 hover:bg-gray-800/30">
+                        <td class="p-1 font-bold border border-gray-700 text-[11px] bg-gray-900/20">${{m.denominacion |
+                            number:'1.2-2'}}</td>
+                        <td class="p-0 border border-gray-700">
+                            <input type="number" [(ngModel)]="m.fajos" (ngModelChange)="guardarProgreso()"
+                                class="w-full bg-transparent text-center outline-none text-base font-bold text-white py-1">
+                        </td>
+                        <td class="p-0 border border-gray-700">
+                            <input type="number" [(ngModel)]="m.lomos" (ngModelChange)="guardarProgreso()"
+                                class="w-full bg-transparent text-center outline-none text-base font-bold text-white py-1">
+                        </td>
+                        <td class="p-0 border border-gray-700">
+                            <input type="number" [(ngModel)]="m.saldos" (ngModelChange)="guardarProgreso()"
+                                class="w-full bg-transparent text-center outline-none text-base font-bold text-white py-1">
+                        </td>
+                        <td class="p-1 border border-gray-700 text-center text-red-400 font-bold text-base">
+                            {{ calcularUnidades(m) }}
+                        </td>
+                        <!-- <td class="p-1 border border-gray-700 text-right text-cyan-400 font-bold text-base">
+                            ${{ calcularUnidades(m) * m.denominacion | number:'1.2-2' }}
+                        </td> -->
                     </tr>
                 </tbody>
             </table>
 
-            <div class="flex justify-between font-bold text-lg border-t border-green-500">
-            </div>
-            <!-- <h3 class="text-green-400 font-bold mb-4 uppercase">Total Efectivo</h3> -->
-            <div>
+            <div class="mt-4 bg-gray-800/10 p-4 rounded-lg border border-gray-700">
                 <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-green-400 font-bold uppercase">Desglose de Efectivo</h3>
-                    <div class="text-blue-400 font-bold text-lg">
+                    <h3 class="text-green-400 font-bold text-[10px] uppercase">Resumen de Caja</h3>
+                    <div class="text-blue-400 font-black text-2xl">
                         TOTAL: ${{ (totalBilletes + totalMonedas) | number:'1.2-2' }}
                     </div>
                 </div>
 
-                <table class="w-full text-[11px] border-collapse text-center">
+                <table class="w-full border-collapse text-center">
                     <thead>
-                        <tr class="bg-gray-900 text-gray-300">
+                        <tr class="bg-gray-900 text-gray-400 text-[10px]">
                             <th class="border border-gray-700 p-1">DENOMIN</th>
-                            <th class="border border-gray-700 p-1 text-blue-300">FAJOS</th>
-                            <th class="border border-gray-700 p-1 text-blue-300">LOMOS</th>
-                            <th class="border border-gray-700 p-1 text-blue-300">SALDOS</th>
+                            <th class="border border-gray-700 p-1">VALOR FAJOS</th>
+                            <th class="border border-gray-700 p-1">VALOR LOMOS</th>
+                            <th class="border border-gray-700 p-1">VALOR SALDOS</th>
                             <th class="border border-gray-700 p-1 text-red-500">TOTAL FILA</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <tr class="bg-gray-700/30 font-bold">
-                            <td colspan="4" class="py-1">BILLETES</td>
-                            <td class="text-white border border-gray-700">${{ totalBilletes | number:'1.2-2' }}</td>
+                        <tr class="bg-gray-700/30 font-bold text-[10px]">
+                            <td colspan="4" class="py-1 border border-gray-700 text-left pl-2 uppercase">Subtotal
+                                Billetes</td>
+                            <td class="text-white border border-gray-700 text-lg font-bold">${{ totalBilletes |
+                                number:'1.2-2' }}</td>
                         </tr>
-                        <tr *ngFor="let b of billetes" class="border border-gray-700">
-                            <td class="p-1 font-bold bg-gray-900/20">${{b.denominacion | number:'1.2-2'}}</td>
+                        <tr *ngFor="let b of billetes" class="border border-gray-700 text-[13px]">
+                            <td class="p-1 font-bold bg-gray-900/40 text-[10px]">${{b.denominacion | number:'1.2-2'}}
+                            </td>
                             <td class="p-1 border border-gray-700 text-blue-200">${{ (b.fajos * 100 * b.denominacion) |
                                 number:'1.2-2' }}</td>
                             <td class="p-1 border border-gray-700 text-blue-200">${{ (b.lomos * 10 * b.denominacion) |
                                 number:'1.2-2' }}</td>
                             <td class="p-1 border border-gray-700 text-blue-200">${{ (b.saldos * b.denominacion) |
                                 number:'1.2-2' }}</td>
-                            <td class="p-1 border border-gray-700 text-red-500 font-bold">${{ calcularTotalFila(b) |
+                            <td class="p-1 border border-gray-700 text-yellow-500 font-bold">${{ calcularTotalFila(b) |
                                 number:'1.2-2' }}</td>
                         </tr>
-
-                        <tr class="bg-gray-700/30 font-bold">
-                            <td colspan="4" class="py-1">MONEDAS</td>
-                            <td class="text-white border border-gray-700">${{ totalMonedas | number:'1.2-2' }}</td>
+                        <tr class="bg-gray-700/30 font-bold text-[10px]">
+                            <td colspan="4" class="py-1 border border-gray-700 text-left pl-2 uppercase">Subtotal
+                                Monedas</td>
+                            <td class="text-white border border-gray-700 text-lg font-bold">${{ totalMonedas |
+                                number:'1.2-2' }}</td>
                         </tr>
-                        <tr *ngFor="let m of monedas" class="border border-gray-700">
-                            <td class="p-1 font-bold bg-gray-900/20">${{m.denominacion | number:'1.2-2'}}</td>
+                        <tr *ngFor="let m of monedas" class="border border-gray-700 text-[13px]">
+                            <td class="p-1 font-bold bg-gray-900/40 text-[10px]">${{m.denominacion | number:'1.2-2'}}
+                            </td>
                             <td class="p-1 border border-gray-700 text-blue-200">${{ (m.fajos * 100 * m.denominacion) |
                                 number:'1.2-2' }}</td>
                             <td class="p-1 border border-gray-700 text-blue-200">${{ (m.lomos * 10 * m.denominacion) |
                                 number:'1.2-2' }}</td>
                             <td class="p-1 border border-gray-700 text-blue-200">${{ (m.saldos * m.denominacion) |
                                 number:'1.2-2' }}</td>
-                            <td class="p-1 border border-gray-700 text-red-500 font-bold">${{ calcularTotalFila(m) |
+                            <td class="p-1 border border-gray-700 text-yellow-500 font-bold">${{ calcularTotalFila(m) |
                                 number:'1.2-2' }}</td>
                         </tr>
                     </tbody>

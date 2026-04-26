@@ -18,6 +18,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { BaseChartDirective } from 'ng2-charts';
 import { MatInputModule } from '@angular/material/input';
 import { SociosService } from '../../services/socios';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-prestamos-component',
@@ -150,7 +151,7 @@ export class ListaPrestamosComponent {
       showCancelButton: true,
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value === '1998') {
         // Si la clave es correcta, procedemos
         this.ejecutarEliminacion(idPrestamo);
@@ -233,7 +234,7 @@ export class ListaPrestamosComponent {
       confirmButtonText: 'Confirmar',
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#28a745'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         if (result.value === '1998') {
           // 3. Navegación si la clave es correcta

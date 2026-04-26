@@ -10,6 +10,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { forkJoin } from 'rxjs';
 import * as XLSX from 'xlsx'; // Asegúrate de tener instalada la librería: npm install xlsx
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-socios-component',
@@ -273,7 +274,7 @@ export class SociosComponent implements OnInit {
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#d33', // Color rojo para advertir acción crítica
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         if (result.value === '1998') {
 
@@ -343,7 +344,7 @@ export class SociosComponent implements OnInit {
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#28a745'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         // 2. Validación de la clave maestra
         if (result.value === '1998') {

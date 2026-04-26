@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-pagos-component',
@@ -161,7 +162,7 @@ export class ListaPagosComponent {
       showCancelButton: true,
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value === '1998') {
         // Si la clave es correcta, procedemos
         this.ejecutarEliminacion(idPagos);
@@ -218,7 +219,7 @@ export class ListaPagosComponent {
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#28a745',
       cancelButtonColor: '#d33'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         // 2. Validación de la clave '1998'
         if (result.value === '1998') {

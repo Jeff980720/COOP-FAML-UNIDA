@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-lista-aporte-component',
@@ -134,7 +136,7 @@ export class ListaAporteComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value === '1998') {
         // Si la clave es correcta, procedemos
         this.ejecutarEliminacion(idAporte);

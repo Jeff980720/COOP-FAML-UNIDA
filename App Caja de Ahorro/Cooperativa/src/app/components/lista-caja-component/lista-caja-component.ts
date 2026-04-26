@@ -4,6 +4,7 @@ import { SociosService } from '../../services/socios';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { EstadoResultado } from '../estado-resultado/estado-resultado';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-caja-component',
@@ -71,7 +72,7 @@ export class ListaCajaComponent {
       showCancelButton: true,
       confirmButtonText: 'Validar',
       cancelButtonText: 'Cancelar'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.value === '1998') {
         // Si la clave es correcta, procedemos
         this.ejecutarEliminacion(idCaja);
@@ -139,7 +140,7 @@ export class ListaCajaComponent {
       cancelButtonText: 'Cancelar',
       confirmButtonColor: '#28a745',
       cancelButtonColor: '#d33'
-    }).then((result) => {
+    }).then((result:any) => {
       if (result.isConfirmed) {
         // 2. Validación de la clave '1998'
         if (result.value === '1998') {

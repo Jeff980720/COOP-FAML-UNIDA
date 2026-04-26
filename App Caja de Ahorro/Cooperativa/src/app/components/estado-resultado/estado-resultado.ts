@@ -857,4 +857,20 @@ export class EstadoResultado {
       'Comentario': aporte.comentario || 'S/N'
     }));
   }
+
+  // Ejecútalo cada vez que cambie un input (puedes usar (ngModelChange))
+  guardarProgreso() {
+    const data = { billetes: this.billetes, monedas: this.monedas };
+    localStorage.setItem('arqueo_temporal', JSON.stringify(data));
+  }
+
+  // Ejecútalo en el ngOnInit()
+  ngOnInit() {
+    const saved = localStorage.getItem('arqueo_temporal');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      this.billetes = parsed.billetes;
+      this.monedas = parsed.monedas;
+    }
+  }
 }

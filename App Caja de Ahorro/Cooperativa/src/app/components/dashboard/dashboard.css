@@ -1,0 +1,487 @@
+/* .dashboard-wrapper {
+  padding: 20px;
+  color: #fff;
+} */
+/* Envuelve .details-grid y .main-charts-wrapper en un div nuevo en tu HTML 
+   o usa el cuerpo principal si están al mismo nivel */
+/* .dashboard-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+} */
+
+/* Panel izquierdo */
+/* .left-panel {
+  flex: 1;
+  min-width: 380px;
+} */
+
+/* Panel derecho */
+/* .right-panel {
+  flex: 2;
+} */
+
+/* Gráficos en 2 columnas */
+/* .main-charts-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+} */
+
+.dashboard-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-body {
+  /* Tendrías que añadir esta clase envolviendo las secciones de abajo */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Mitad texto/KPIs, mitad gráficos */
+  gap: 24px;
+  align-items: start;
+}
+
+/* Cabecera
+.search-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.search-field {
+  flex: 2;
+}
+
+.name-field {
+  flex: 1;
+} */
+
+.main-kpi-grid {
+  /* display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px; */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* KPIs en 2 columnas */
+  gap: 12px;
+}
+
+.main-card {
+  background: #1e293b !important;
+  border-left: 5px solid #3b82f6;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.main-card .icon {
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  margin-right: 15px;
+  color: #3b82f6;
+}
+
+.income {
+  border-left-color: #10b981;
+}
+
+.income .icon {
+  color: #10b981;
+}
+
+.expense {
+  border-left-color: #ef4444;
+}
+
+.expense .icon {
+  color: #ef4444;
+}
+
+/* Secciones */
+.section-divider {
+  border: 0;
+  border-top: 1px solid #334155;
+  margin: 30px 0;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #94a3b8;
+}
+
+.sub-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.kpi-sub {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #334155;
+}
+
+.kpi-sub p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.kpi-sub h4 {
+  margin: 5px 0 0;
+  font-size: 1.1rem;
+}
+
+/* Colores de Valores */
+.val-prestado {
+  color: #60a5fa;
+}
+
+.val-cobrado {
+  color: #34d399;
+}
+
+.val-pendiente {
+  color: #fbbf24;
+}
+
+.val-anulado {
+  color: #f87171;
+}
+
+.charts-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+/* .chart-box {
+  width: 100%;
+  max-width: 500px;
+  background: #1e293b;
+  padding: 20px;
+} */
+
+/* Contenedor de la fila */
+.search-row {
+  display: flex;
+  gap: 15px;
+  /* Espacio entre los dos inputs */
+  justify-content: flex-start;
+  /* Alinea al inicio (izquierda) */
+  margin-bottom: 20px;
+  width: 100%;
+  /* El contenedor sigue midiendo el 100% */
+}
+
+/* Ajuste del campo de búsqueda */
+.search-field {
+  width: 400px;
+  /* Ancho fijo para que no crezca */
+}
+
+/* Ajuste del campo de nombre */
+.name-field {
+  width: 300px;
+  /* Ancho fijo para el nombre */
+}
+
+/* Opcional: Si quieres que sean responsivos pero no gigantes */
+@media (max-width: 600px) {
+  .search-row {
+    flex-direction: column;
+    /* En móviles se ponen uno sobre otro */
+  }
+
+  .search-field,
+  .name-field {
+    width: 100%;
+    /* En móviles sí ocupan el ancho total */
+  }
+}
+
+/* 1. Ajuste de la proporción de la pantalla */
+.dashboard-layout {
+  /* display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  padding: 10px; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Mitad y mitad exacta */
+  gap: 24px;
+  padding: 20px;
+  align-items: start;
+}
+
+.left-panel {
+  /* flex: 0 0 380px;
+  No crece, no se encoge, se queda en 380px */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.right-panel {
+  flex: 1;
+  /* Ocupa el resto del espacio de forma equilibrada */
+  /* width: 100%; */
+  align-self: stretch;
+  /* Se estira para igualar la altura de los KPIs si es necesario */
+}
+
+/* 2. Gráficos en 2 columnas muy compactas */
+.main-charts-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Gráficos en 2x2 */
+  gap: 15px;
+  align-items: stretch;
+  /* Asegura que todas las tarjetas midan lo mismo verticalmente */
+}
+
+/* Contenedor Grid Principal */
+.main-charts-wrapper2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    /* Forzamos que las filas tengan una altura mínima consistente */
+    grid-template-rows: repeat(2, minmax(320px, 1fr)); 
+    gap: 20px;
+    /* Importante: el grid no debe crecer más allá de lo necesario */
+    align-items: stretch;
+}
+
+/* Gráfico 1 (Arriba Izquierda) */
+.chart-box:nth-child(1) {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Gráfico 2 (Abajo Izquierda) */
+.chart-box:nth-child(3) {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+/* 3. Reducir el tamaño de las tarjetas de gráficos */
+.chart-box {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 8px;
+  height: 450px;
+  /* <--- Aumentamos significativamente la altura vertical */
+  /* height: 280px; */
+  /* Altura controlada */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between;
+  /* Título abajo y gráfico arriba */
+  border: 1px solid #334155;
+}
+
+/* EL TRUCO PARA QUE EL GRÁFICO SE VEA GRANDE: */
+.chart-box canvas {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 380px !important;
+  /* <--- El gráfico ahora tiene mucho más aire para crecer */
+  /* Deja espacio para el título H4 */
+}
+
+.chart-box h4 {
+  margin: 15px 0 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #cbd5e1;
+  text-align: center;
+}
+
+/* Para pantallas pequeñas (opcional) */
+@media (max-width: 900px) {
+  .main-charts-wrapper {
+    grid-template-columns: 1fr;
+    /* 1 columna en móviles */
+  }
+}
+
+/* Forzar 3 columnas en una sola fila */
+.main-kpi-grid.single-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* Crea 3 columnas de igual tamaño */
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Optimización de espacio interno de las tarjetas sub-kpi */
+.kpi-sub {
+  background: #1e293b;
+  padding: 10px;
+  /* Reducido de 15px a 10px */
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 60px;
+  /* Altura mínima para que sean delgadas */
+}
+
+.kpi-sub p {
+  margin: 0;
+  font-size: 0.75rem;
+  /* Fuente ligeramente más pequeña */
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.kpi-sub h4 {
+  margin: 2px 0 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Responsividad: En pantallas muy pequeñas pasar a 1 columna */
+@media (max-width: 600px) {
+  .main-kpi-grid.single-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.custom-table {
+  width: 100%;
+  background: #1e293b !important;
+  color: white !important;
+  margin-top: 15px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.custom-table th {
+  color: #94a3b8 !important;
+  background: #0f172a;
+}
+
+.custom-table td {
+  color: #e2e8f0;
+  border-bottom: 1px solid #334155;
+}
+
+.mt-4 {
+  margin-top: 2rem;
+}
+
+/* Contenedor del título */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 0;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #ffffff;
+  /* Ajusta según tu tema oscuro */
+}
+
+.mat-table {
+  background: transparent !important;
+  width: 100%;
+}
+
+/* Estilo para los TH (Encabezados de columna) */
+.mat-header-cell {
+  color: #94a3b8 !important;
+  /* Gris claro para encabezados */
+  font-weight: 600 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  padding: 12px !important;
+}
+
+/* Celdas de datos */
+.mat-cell {
+  padding: 12px !important;
+  color: #e2e8f0;
+}
+
+/* Mensaje cuando no hay datos */
+.no-data-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: #94a3b8;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.no-data-message mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  opacity: 0.5;
+}
+
+/* Contenedor de la Tarjeta (Lado Derecho) */
+.card-container {
+    grid-column: 2;
+    grid-row: 1 / span 2; /* Abarca las dos filas de los gráficos */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Se estira para igualar la altura de los dos gráficos */
+    min-height: 0; /* Permite que el contenido interno se encoja para activar el scroll */
+    background: #1e293b;
+    border-radius: 12px;
+    overflow: hidden; /* Evita que el contenido se salga de los bordes redondeados */
+}
+
+/* Cabecera de la tabla (Fija arriba) */
+.section-header {
+    flex: 0 0 auto; /* No crece ni se encoge */
+    padding: 15px;
+    background: rgba(0,0,0,0.1);
+}
+
+/* EL MOTOR DEL SCROLL: Contenedor de la Tabla */
+.table-container {
+    flex: 1 1 auto; /* Ocupa todo el espacio restante del card-container */
+    overflow-y: auto; /* Activa el scroll vertical si la tabla es grande */
+    min-height: 0; /* Crucial para que flexbox entienda que puede activar el scroll */
+}
+
+/* Ajustes de la tabla Material */
+.mat-table {
+    width: 90%;
+    background: transparent !important;
+}
+
+/* Para que el scroll se vea bien en temas oscuros */
+.table-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 10px;
+}

@@ -1,0 +1,57 @@
+<div class="container mx-auto p-4">
+    <h2 class="text-2xl font-bold mb-4 single-line-title">
+        PAGOS DE: {{ nombreSocio | uppercase }}
+        <span class="divider">|</span>
+        CAPITAL: <span class="total-header">{{ getTotales('amortizacion') | currency }}</span>
+        <span class="divider">|</span>
+        INTERES: <span class="total-header">{{ getTotales('interes') | currency }}</span>
+        <span class="divider">|</span>
+        AL: {{ date | date:'dd/MM/yyyy' }}
+        <span class="divider">|</span>
+        <button (click)="irASocio()" class="btn-return">
+            🔙
+        </button>
+        <button (click)="botonDescargarPDF()" class="btn-return" title="Descargar PDF">
+            <span class="material-icons">picture_as_pdf</span>
+        </button>
+    </h2>
+</div>
+<table class="table-dark">
+    <thead>
+        <tr>
+            <th class="py-2 px-4 border-b col-equi"># Pago</th>
+            <!-- <th class="py-2 px-4 border-b col-equi">Tipo</th> -->
+            <th class="py-2 px-4 border-b col-equi">Id Prestamo</th>
+            <th class="py-2 px-4 border-b col-equi">Pago del Monto</th>
+            <th class="py-2 px-4 border-b col-equi">Fecha Pago del Monto</th>
+            <th class="py-2 px-4 border-b col-equi"># De cuota del Monto</th>
+            <th class="py-2 px-4 border-b col-equi">Pago del Interes</th>
+            <th class="py-2 px-4 border-b col-equi">Fecha Pagodel Interes</th>
+            <th class="py-2 px-4 border-b col-equi"># De cuota del Interes</th>
+            <th class="py-2 px-4 border-b col-equi">Observacion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let item of pagos">
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.idpagos}}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b"><strong>{{ pagos.indexOf(item) + 1 }}</strong>
+            </td>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.tipo }}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.idprestamos}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.amortizacion | currency }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.fechaamortizacion |date:'dd/MM/yyyy'}}
+            </td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.numamortizacion }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.interes |currency}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.fechainteres |date:'dd/MM/yyyy'}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.numinteres }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.comentario }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">
+                <span
+                    [ngClass]="{'text-green-500': item.estatus_dinamico === 'PAGADO', 'text-red-500': item.estatus_dinamico === 'PENDIENTE'}">
+                    {{ item.estatus_dinamico }}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>

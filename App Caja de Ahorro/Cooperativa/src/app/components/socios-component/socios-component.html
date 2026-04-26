@@ -1,0 +1,112 @@
+<!-- <h1 class="text-center font-bold text-2xl mb-4">Lista de socios {{cooperativa.nombre}}</h1> -->
+
+<div class="flex flex-wrap gap-2 mb-4 justify-center">
+    <button (click)="irAAgregarSocio()" class="btn-agregar text-sm">➕ Socio</button>
+    <button (click)="irAAgregarAporte()" class="btn-agregar text-sm">➕ Aporte</button>
+    <button (click)="irAAgregarPrestamos()" class="btn-agregar text-sm">➕ Prestamo</button>
+    <button (click)="irAAgregarPagos()" class="btn-agregar text-sm">➕ Pago</button>
+    <button (click)="irAAgregarCaja()" class="btn-agregar text-sm">➕ Caja</button>
+    <button (click)="botonDescargarPDF()" class="btn-return" title="Descargar PDF">
+        <span class="material-icons">picture_as_pdf</span>
+    </button>
+    <button (click)="exportarSociosCSV()" class="btn-return" title="Descargar CSV">
+        <span class="material-icons">code</span>
+    </button>
+    <button (click)="exportarSociosExcel()" class="btn-return" title="Descargar XML">
+        <span class="material-icons">grid_on</span>
+    </button>
+</div>
+<!-- Revisa los cambios que se agregaron Jefferson  -->
+<div class="w-full overflow-x-auto">
+    <table class="w-full text-xs border-collapse">
+        <thead>
+            <tr class="bg-gray-800 font-bold text-yellow-500 border-t-2 border-white-600">
+                <th class="py-3 px-3 border-b border-r border-gray-700 whitespace-nowrap">Acciones</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">ID</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700 text-left">Nombre</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700"># Ap.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">Aportado</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">Ayuda</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">M. Prest.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">M. Pag.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">M. Pend.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">Int. Prest.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">Int. Pag.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">Int. Anul.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700">Int. Pend.</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700 text-blue-400">Ingresos</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700 text-red-400">Gastos</th>
+                <th class="py-3 px-3 border-b border-r border-gray-700 text-green-400">Ganado</th>
+                <th class="py-3 px-3 border-b border-gray-700 text-white">Total</th>
+            </tr>
+
+            <tr class="bg-gray-800 font-bold text-yellow-500 border-t-2 border-yellow-600">
+                <td colspan="3" class="py-2 px-3 border-r border-gray-600 text-center border-b-2 border-white">TOTALES
+                    GLOBAL</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-center border-b-2 border-white">{{
+                    getTotalGeneral('num_aportes') }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('aportado') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('ayuda') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('montoprestado') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('montopagado') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('montopendiente') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('interesprestado') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('interespagado') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('interesanulado') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right border-b-2 border-white">{{
+                    getTotalGeneral('interespendiente') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right text-blue-400 border-b-2 border-white">{{
+                    getTotalGeneral('ingresos') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right text-red-400 border-b-2 border-white">{{
+                    getTotalGeneral('gastos') | currency }}</td>
+                <td class="py-2 px-3 border-r border-gray-600 text-right text-green-400 border-b-2 border-white">{{
+                    getTotalGeneral('ganado') | currency }}</td>
+                <td class="py-2 px-3 text-right text-white border-b-2 border-white">{{ getTotalGeneral('total') |
+                    currency }}</td>
+            </tr>
+            <tr class="bg-white h-[2px]">
+                <td colspan="17"></td>
+            </tr>
+        </thead>
+        <tbody>
+            @for (item of cooperativa.items; track $index) {
+            <tr class="hover:bg-gray-800 transition-colors border-r ">
+                <td class="py-1 px-1 border-b">
+                    <div class="flex items-center justify-center gap-1">
+                        <button class="p-1 hover:bg-gray-600 rounded" (click)="editarSocio(item)">✏️</button>
+                        <button class="p-1 hover:bg-gray-600 rounded" (click)="eliminarSocio(item.idsocio)">🗑️</button>
+                        <button class="p-1 hover:bg-gray-600 rounded"
+                            (click)="prestamosDelSocio(item.idsocio)">📋</button>
+                        <button class="p-1 hover:bg-gray-600 rounded" (click)="pagosDelSocio(item.idsocio)">💰</button>
+                    </div>
+                </td>
+
+                <td class="py-1 px-1 border-b text-center">{{item?.idsocio}}</td>
+                <td class="py-1 px-1 border-b whitespace-nowrap">{{item?.nombresocio}}</td>
+                <td class="py-1 px-1 border-b text-center">{{ $any(item).num_aportes }}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.aportado | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{ $any(item).ayuda | currency }}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.montoprestado | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.montopagado | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.montopendiente | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.interesprestado | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.interespagado | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.interesanulado | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{item?.interespendiente | currency}}</td>
+                <td class="py-1 px-1 border-b text-center">{{ $any(item).ingresos | currency }}</td>
+                <td class="py-1 px-1 border-b text-center">{{ $any(item).gastos | currency }}</td>
+                <td class="py-1 px-1 border-b text-center">{{ $any(item).ganado | currency }}</td>
+                <td class="py-1 px-1 border-b text-center font-bold text-white">{{ $any(item).total | currency }}</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

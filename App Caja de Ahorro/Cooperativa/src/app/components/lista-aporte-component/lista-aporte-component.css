@@ -1,0 +1,11 @@
+.btn-return {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el icono y el texto */
+  padding: 8px 16px;
+  /* Tus otros estilos de color y borde */
+}
+
+.btn-return .material-icons {
+  font-size: 20px; /* Tamaño adecuado para botones */
+}

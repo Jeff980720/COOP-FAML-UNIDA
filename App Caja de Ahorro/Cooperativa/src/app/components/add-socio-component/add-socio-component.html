@@ -1,0 +1,59 @@
+<div class="form-container">
+  <h2 class="text-center font-bold text-2xl mb-4">{{ esEdicion ? 'Editar Socio' : 'Agregar Nuevo Socio' }}</h2>
+  <form class="p-12" [formGroup]="addSocioForm" (ngSubmit)="onSubmit()">
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Id del Socio:</mat-label>
+      <input matInput formControlName="id" [readonly]="true">
+      @if (addSocioForm.get('id')?.hasError('required') && addSocioForm.get('id')?.touched) {
+      <mat-error>
+        El Id del socio es obligatorio.
+      </mat-error>
+      }
+      @if (addSocioForm.get('id')?.hasError('pattern') && addSocioForm.get('id')?.touched) {
+      <mat-error>
+        Debe ingresar exactamente 2 dígitos numéricos.
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre del Socio:</mat-label>
+      <input type="text" matInput formControlName="nombre" (input)="convertirAMayusculas()">
+      @if (addSocioForm.get('nombre')?.hasError('required') && addSocioForm.get('nombre')?.touched) {
+      <mat-error>
+        El nombre del socio es obligatorio.
+      </mat-error>
+      }
+      @if (addSocioForm.get('nombre')?.hasError('minlength') && addSocioForm.get('nombre')?.touched) {
+      <mat-error>
+        El nombre debe tener al menos 5 caracteres.
+      </mat-error>
+      }
+      @if (addSocioForm.get('nombre')?.hasError('pattern') && addSocioForm.get('nombre')?.touched) {
+      <mat-error>
+        Solo ingresar letras.
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <div class="mb-4">
+      <label for="aportado" class="block text-withe-700 font-bold mb-2">Aportado:</label>
+      <input type="text" id="aportado" name="aportado" class="w-full p-2 border border-gray-300 rounded text-black"
+        value="00.00$" disabled />
+    </div>
+
+    <div class="flex space-x-4">
+      <button mat-raised-button color="primary" type="submit" [disabled]="addSocioForm.invalid" class="btn-agregar">
+        {{ esEdicion ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button (click)="limpiarCampos()" mat-raised-button color="primary" type="submit" [disabled]="esEdicion"
+        class="button">
+        Limpiar
+      </button>
+      <button (click)="irASocio()" mat-raised-button color="primary" type="submit" class="button">
+        Cancelar
+      </button>
+    </div>
+
+  </form>

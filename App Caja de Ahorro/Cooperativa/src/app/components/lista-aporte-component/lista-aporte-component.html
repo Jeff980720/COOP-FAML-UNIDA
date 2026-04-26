@@ -1,0 +1,96 @@
+<form [formGroup]="dashboardForm">
+  <mat-form-field appearance="outline" class="search-field">
+    <mat-label>Socio (ID - Nombre)</mat-label>
+    <input type="text" matInput formControlName="idSocio" [matAutocomplete]="autoSocio">
+    <mat-icon matSuffix>search</mat-icon>
+
+    <mat-autocomplete #autoSocio="matAutocomplete" [displayWith]="displaySocioFn"
+      (optionSelected)="onSocioSelected($event)">
+      <mat-option *ngFor="let option of filteredSocios | async" [value]="option">
+        ({{option.idsocio}}) {{option.nombresocio}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerInicio" placeholder="Fecha Inicio" formControlName="fechaInicio">
+    <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+    <mat-datepicker #pickerInicio></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput [matDatepicker]="pickerFin" placeholder="Fecha Fin" formControlName="fechaFin">
+    <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+    <mat-datepicker #pickerFin></mat-datepicker>
+  </mat-form-field>
+</form>
+<table class="table table-striped tabla-equi">
+  <thead>
+    <tr>
+      <th class="py-2 px-4 border-b col-equi">##</th>
+      <th class="py-2 px-4 border-b col-equi">Fecha</th>
+      <th class="py-2 px-4 border-b col-equi">Aportado</th>
+      <th class="py-2 px-4 border-b col-equi">ID SOCIO</th>
+      <th class="py-2 px-4 border-b col-equi">NOMBRE</th>
+      <th class="py-2 px-4 border-b col-equi">COMENTARIO</th>
+      <button (click)="irASocio()" class="btn-return">
+        <span class="material-icons">home</span>
+      </button>
+      <button (click)="irFormAport()" class="btn-return">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button (click)="botonDescargarPDF()" class="btn-return" title="Descargar PDF">
+        <span class="material-icons">picture_as_pdf</span>
+      </button>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of listaAportes; track $index) {
+    <tr>
+      <td style="text-align: center;" class="py-2 px-4 border-b">{{aport.length - $index}}</td>
+      <td style="text-align: start;" class="py-2 px-4 border-b">{{item.fechaaporte | date:'dd/MM/yyyy HH:mm'}}</td>
+      <td style="text-align: center;" class="py-2 px-4 border-b">{{item.aportado | currency:'USD':'symbol' }}</td>
+      <td style="text-align: center;" class="py-2 px-4 border-b">{{item.idsocio}}</td>
+      <td style="text-align: center;" class="py-2 px-4 border-b">{{item.nombresocio}}</td>
+      <td style="text-align: center;" class="py-2 px-4 border-b">{{item.comentario}}</td>
+
+      <td class="acciones">
+        <button class="btn-edit" (click)="editarAporte(item)">
+          ✏️
+        </button>
+
+        <button class="btn-delete" (click)="eliminarAporte(item.idaporte)">
+          🗑️
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="aport.length === 0">
+      <td colspan="6" style="text-align: center;">No hay aportes registrados.</td>
+    </tr>
+    }
+  </tbody>
+  <!-- <thead>
+      <tr>
+        <th class="py-2 px-4 border-b col-equi" >ID</th>
+        <th class="py-2 px-4 border-b col-equi">Fecha</th>
+        <th class="py-2 px-4 border-b col-equi">Aportado</th>
+        <th class="py-2 px-4 border-b col-equi">ID Socio</th>
+        <th class="py-2 px-4 border-b col-equi">Nombre</th>
+        <th class="py-2 px-4 border-b col-equi">Comentario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of aport">
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.idAporte }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.fechaAporte | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.aportado }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.idSocio }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.nombreSocio | currency:'USD':'symbol' }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.comentario }}</td>
+      </tr>
+      
+      <tr *ngIf="aport.length === 0">
+        <td colspan="6" style="text-align: center;">No hay aportes registrados.</td>
+      </tr>
+    </tbody> -->
+</table>

@@ -1,0 +1,48 @@
+<div class="p-6 bg-gray-900 min-h-screen text-white">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold">Gestión de Usuarios Administrativos</h2>
+        <button mat-flat-button color="primary" (click)="agregarUsuario()">
+            + Nuevo Usuario
+        </button>
+    </div>
+
+    <table class="w-full text-left border-collapse bg-gray-800 rounded-lg overflow-hidden">
+        <thead class="bg-gray-700 text-blue-400">
+            <tr>
+                <th class="p-3">ID</th>
+                <th class="p-3">Usuario</th>
+                <th class="p-3">Nombre Completo</th>
+                <th class="p-3">Rol</th>
+                <th class="p-3">Estado</th>
+                <th class="p-3">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of usuarios" class="border-b border-gray-700 hover:bg-gray-750">
+                <td class="p-3">{{ user.idusuario }}</td>
+                <td class="p-3">{{ user.username }}</td>
+                <td class="p-3">{{ user.nombre_completo }}</td>
+                <td class="p-3">
+                    <span [class]="user.rol === 'ADMIN' ? 'text-purple-400' : 'text-green-400'">
+                        {{ user.rol }}
+                    </span>
+                </td>
+                <td class="p-3">
+                    <span class="px-2 py-1 rounded text-xs"
+                        [ngClass]="user.estado ? 'bg-green-900 text-green-200' : 'bg-red-900 text-red-200'">
+                        {{ user.estado ? 'ACTIVO' : 'INACTIVO' }}
+                    </span>
+                </td>
+                <td class="p-3">
+                    <button mat-icon-button color="accent" (click)="editarUsuario(user)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button color="warn" (click)="eliminarUsuario(user.idusuario)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

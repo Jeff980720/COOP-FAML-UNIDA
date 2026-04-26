@@ -1,0 +1,39 @@
+<div class="login-wrapper">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title>Bienvenido</mat-card-title>
+            <mat-card-subtitle>Caja de Ahorro Familia Unida</mat-card-subtitle>
+        </mat-card-header>
+
+        <form [formGroup]="miFormulario" (ngSubmit)="ingresar()" class="login-form">
+
+            <mat-form-field appearance="outline" class="custom-field">
+                <mat-label>Usuario</mat-label>
+                <input matInput formControlName="username" name="username" autocomplete="username"
+                    placeholder="Ej. jeff98">
+                <mat-icon matSuffix>person</mat-icon>
+                <mat-error *ngIf="miFormulario.get('username')?.hasError('required')">
+                    El usuario es obligatorio
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="custom-field">
+                <mat-label>Contraseña</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" name="password"
+                    autocomplete="current-password">
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide"
+                    [attr.aria-label]="'Ocultar contraseña'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="miFormulario.get('password')?.hasError('required')">
+                    La contraseña es obligatoria
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" type="submit" class="login-btn">
+                INGRESAR
+            </button>
+
+        </form>
+    </mat-card>
+</div>

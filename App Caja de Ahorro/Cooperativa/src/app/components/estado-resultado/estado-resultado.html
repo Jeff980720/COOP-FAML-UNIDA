@@ -1,0 +1,331 @@
+<div class="p-6 bg-gray-900 text-white min-h-screen">
+    <!-- <h2 class="text-2xl font-bold mb-6 border-b border-cyan-500 pb-2">ESTADO DE RESULTADOS - COOP. FAMILIA UNIDA</h2> -->
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <div class="bg-gray-800 p-4 rounded-lg shadow-lg border-l-4 border-blue-500">
+            <!-- <h3 class="text-blue-400 font-bold mb-4 uppercase">Resumen Contable</h3> -->
+            <!-- <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="flex flex-col">
+                    <label class="text-xs text-blue-400 font-bold uppercase mb-1">Inco. Periodo</label>
+                    <input type="date" [(ngModel)]="fechaInicioPeriodo"
+                        class="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs text-blue-400 font-bold uppercase mb-1">Inco. Operación</label>
+                    <input type="date" [(ngModel)]="fechaInicioOperacion"
+                        class="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs text-blue-400 font-bold uppercase mb-1">Fin Periodo</label>
+                    <input type="date" [(ngModel)]="fechaFinPeriodo"
+                        class="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+            </div> -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="flex flex-col">
+                    <label class="text-xs text-blue-400 font-bold uppercase mb-1">Inco. Periodo</label>
+                    <input type="date" [(ngModel)]="service.fechaInicioPeriodo" (change)="actualizarReporte()"
+                        class="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs text-blue-400 font-bold uppercase mb-1">Inco. Operación</label>
+                    <input type="date" [(ngModel)]="service.fechaInicioOperacion" (change)="actualizarReporte()"
+                        class="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex flex-col">
+                    <label class="text-xs text-blue-400 font-bold uppercase mb-1">Fin Periodo</label>
+                    <input type="date" [(ngModel)]="service.fechaFinPeriodo" (change)="actualizarReporte()"
+                        class="bg-gray-700 text-white border border-gray-600 rounded px-2 py-1 text-sm focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div class="space-y-2">
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO APORTADO:</span> <span
+                        class="font-mono text-green-400">${{service.estadoResultado.dineroAportado |
+                        number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <h1 class="text-center">PRESTAMOS</h1>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <div class="flex justify-between border-t border-gray-700"><span class="text-xs pr-4">DINERO EN PRESTAMO
+                        A LOS
+                        SOCIOS:</span> <span>${{service.estadoResultado.dineroEnPrestamo | number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO EN AYUDA A LOS SOCIOS:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroAyuda | number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO PRESTADO MENSUAL:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroPrestadoMensual |
+                        number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO EN INTERES POR PRESTAMOS:</span>
+                    <span class="text-yellow-500">${{service.estadoResultado.interesEnPrestamo | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span class="text-xs pr-4">INTERES PRESTADO MENSUAL:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.interesPrestadoMensual |
+                        number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <h1 class="text-center">PAGOS</h1>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO PAGADO:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroPaga | number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO PAGADO MENSUAL:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroPagadoMensual | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO POR COBRAR:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroPorCobrar | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span class="text-xs pr-4">INTERES PAGADO:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.interesPagado | number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">INTERES PAGADO MENSUAL:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.interesPagadoMensual |
+                        number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">INTERESES POR COBRAR:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.interesPorCobrar | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <h1 class="text-center">ESTADO DE RESULTADOS</h1>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">INGRESOS VARIOS POR MULTAS / MORA /
+                        REPOSICION:</span> <span class="text-yellow-500">${{service.estadoResultado.ingresosVarios |
+                        number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">EGRES. VIAJES / REUNIONES-INTERES GASTADO/
+                        AYUDAS:</span> <span class="text-yellow-500">${{service.estadoResultado.egresosSocios |
+                        number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">EGRES. REPRESTAMOS-INTERES NO
+                        COBRADO:</span> <span class="text-yellow-500">${{service.estadoResultado.egresoInteresAnulado |
+                        number:'1.2-2'}}</span></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">TOTAL APORTADO:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.totalAportados | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span class="text-xs pr-4">APORTE INDIVIDUAL:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.aporteIndividual | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span class="text-xs pr-4">TL. INTERESES GENERADOS REAL:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.interesGeneradoReal | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO EN CAJA:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroEnCaja | number:'1.2-2'}}</span></div>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500"></div>
+                <div class="flex justify-between"><span class="text-xs pr-4">DINERO GENERADO:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.dineroGenerado | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-blue-500 "></div>
+                <div class="flex justify-between"><span class="text-xs">VERIFICACION:</span> <span
+                        class="text-yellow-500">${{service.estadoResultado.verificacion | number:'1.2-2'}}</span></div>
+            </div>
+        </div>
+
+        <div class="border-yellow-500">
+            <h3 class="text-yellow-400 font-bold mb-4 uppercase text-center">Caja de Ahorro</h3>
+            <div class="space-y-2">
+                <div class="flex justify-between font-bold text-lg border-t border-yellow-500">
+                </div>
+                <div class="flex justify-between"><span>DINERO APORTADO MENSUAL:</span>
+                    <span>${{service.resultadoDelMes.dineroAportado}}</span>
+                </div>
+                <div class="flex justify-between"><span>DINERO PRESTADO MENSUAL:</span>
+                    <span>${{service.resultadoDelMes.dineroPrestado}}</span>
+                </div>
+                <div class="flex justify-between"><span>DINERO PAG. MENSL EFECTIVO:</span>
+                    <span>${{service.resultadoDelMes.dineroPagadoEfectivo}}</span>
+                </div>
+                <div class="flex justify-between"><span>DINERO PAG. MENSL REEPRESTAMO:</span>
+                    <span>${{service.resultadoDelMes.dineroPagadoReprestamo}}</span>
+                </div>
+                <div class="flex justify-between"><span>INTERES PRESTADO MENSUAL:</span>
+                    <span>${{service.resultadoDelMes.interesPrestado}}</span>
+                </div>
+                <div class="flex justify-between"><span>INTERES PAGADO MENSUAL:</span>
+                    <span>${{service.resultadoDelMes.interesPagado}}</span>
+                </div>
+                <!-- <div class="flex justify-between font-bold text-lg border-t border-yellow-500">
+                </div>
+                <div class="flex justify-between"><span>DINERO EN CAJA ANTERIOR:</span>
+                    <span>${{service.resultadoDelMes.dineroCajaAnterior}}</span>
+                </div> -->
+                <div class="flex justify-between font-bold text-lg border-t border-yellow-500"></div>
+                <div class="flex justify-between items-center py-1">
+                    <span class="text-sm uppercase">Dinero en Caja Anterior:</span>
+                    <div
+                        class="flex items-center bg-gray-700 rounded px-2 border border-gray-600 focus-within:border-yellow-500">
+                        <span class="text-gray-400 mr-1">$</span>
+                        <input type="number" [(ngModel)]="service.resultadoDelMes.dineroCajaAnterior"
+                            (input)="calcularResultadosMensuales()"
+                            class="bg-transparent w-24 text-right text-yellow-400 font-mono outline-none py-1 text-sm"
+                            step="0.01">
+                    </div>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-yellow-500">
+                </div>
+                <div class="flex justify-between"><span>RECAUDADO:</span>
+                    <span>${{service.resultadoDelMes.recaudado | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span>PRESTADO:</span>
+                    <span>${{service.resultadoDelMes.prestado | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between"><span>DINERO EN CAJA ACTUAL:</span>
+                    <span>${{service.resultadoDelMes.dineroCajaActual | number:'1.2-2'}}</span>
+                </div>
+                <div class="flex justify-between font-bold text-lg border-t border-yellow-500">
+                </div>
+            </div>
+            <div class="flex flex-row space-x-4">
+                <button class="w-1/2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 rounded mt-4"
+                    (click)="resetearEstado()">
+                    Resetear
+                </button>
+                <button class="w-1/2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 rounded mt-4"
+                    (click)="guardarCajaActual()">
+                    Guardar
+                </button>
+            </div>
+            <h2 class="text-center text-yellow-400 font-bold mt-6">Descargas</h2>
+            <div>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarAportesExcel()">
+                    Registro de Aportes Excel
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarAportesCSV()">
+                    Registro de Aportes CSV
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarPrestamosExcel()">
+                    Registro de Prestamos Excel
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarPrestamosCSV()">
+                    Registro de Prestamos CSV
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarPagosExcel()">
+                    Registro de Pagos Excel
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarPagosCSV()">
+                    Registro de Pagos CSV
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarCajaExcel()">
+                    Registro de Caja Excel
+                </button>
+                <button class="w-full bg-green-500 hover:bg-blue-600 text-black font-bold py-2 rounded mt-2"
+                    (click)="exportarCajaCSV()">
+                    Registro de Caja CSV
+                </button>
+            </div>
+        </div>
+
+        <div>
+            <h3 class="text-green-400 font-bold mb-4 uppercase">Arqueo de Efectivo</h3>
+
+            <table class="w-full text-[10px] border-collapse">
+                <thead>
+                    <tr class="text-gray-400 border border-gray-700 bg-gray-900/50">
+                        <th class="border border-gray-700 p-1">DENOMIN</th>
+                        <th class="border border-gray-700 p-1">FAJOS / 100</th>
+                        <th class="border border-gray-700 p-1">LOMOS / 10</th>
+                        <th class="border border-gray-700 p-1">SALDOS / 1</th>
+                        <th class="border border-gray-700 p-1 text-red-400">UNIDADES</th>
+                        <th class="border border-gray-700 p-1 text-cyan-400">TOTAL</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr class="bg-gray-700/50">
+                        <td colspan="6" class="text-center font-bold py-1">BILLETES</td>
+                    </tr>
+                    <tr *ngFor="let b of billetes" class="border border-gray-700">
+                        <td class="p-1 font-bold border border-gray-700">${{b.denominacion | number:'1.2-2'}}</td>
+                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="b.fajos"
+                                class="w-full bg-transparent text-center outline-none"></td>
+                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="b.lomos"
+                                class="w-full bg-transparent text-center outline-none"></td>
+                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="b.saldos"
+                                class="w-full bg-transparent text-center outline-none"></td>
+                        <td class="p-1 border border-gray-700 text-center text-red-400 font-bold">{{ calcularUnidades(b)
+                            }}</td>
+                        <td class="p-1 border border-gray-700 text-right text-cyan-400">${{ calcularUnidades(b) *
+                            b.denominacion | number:'1.2-2' }}</td>
+                    </tr>
+
+                    <tr class="bg-gray-700/50">
+                        <td colspan="6" class="text-center font-bold py-1 border border-gray-700">MONEDAS</td>
+                    </tr>
+                    <tr *ngFor="let m of monedas" class="border border-gray-700">
+                        <td class="p-1 font-bold border border-gray-700">${{m.denominacion | number:'1.2-2'}}</td>
+                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="m.fajos"
+                                class="w-full bg-transparent text-center outline-none"></td>
+                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="m.lomos"
+                                class="w-full bg-transparent text-center outline-none"></td>
+                        <td class="p-1 border border-gray-700"><input type="number" [(ngModel)]="m.saldos"
+                                class="w-full bg-transparent text-center outline-none"></td>
+                        <td class="p-1 border border-gray-700 text-center text-red-400 font-bold">{{ calcularUnidades(m)
+                            }}</td>
+                        <td class="p-1 border border-gray-700 text-right text-cyan-400">${{ calcularUnidades(m) *
+                            m.denominacion | number:'1.2-2' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="flex justify-between font-bold text-lg border-t border-green-500">
+            </div>
+            <!-- <h3 class="text-green-400 font-bold mb-4 uppercase">Total Efectivo</h3> -->
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-green-400 font-bold uppercase">Desglose de Efectivo</h3>
+                    <div class="text-blue-400 font-bold text-lg">
+                        TOTAL: ${{ (totalBilletes + totalMonedas) | number:'1.2-2' }}
+                    </div>
+                </div>
+
+                <table class="w-full text-[11px] border-collapse text-center">
+                    <thead>
+                        <tr class="bg-gray-900 text-gray-300">
+                            <th class="border border-gray-700 p-1">DENOMIN</th>
+                            <th class="border border-gray-700 p-1 text-blue-300">FAJOS</th>
+                            <th class="border border-gray-700 p-1 text-blue-300">LOMOS</th>
+                            <th class="border border-gray-700 p-1 text-blue-300">SALDOS</th>
+                            <th class="border border-gray-700 p-1 text-red-500">TOTAL FILA</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr class="bg-gray-700/30 font-bold">
+                            <td colspan="4" class="py-1">BILLETES</td>
+                            <td class="text-white border border-gray-700">${{ totalBilletes | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr *ngFor="let b of billetes" class="border border-gray-700">
+                            <td class="p-1 font-bold bg-gray-900/20">${{b.denominacion | number:'1.2-2'}}</td>
+                            <td class="p-1 border border-gray-700 text-blue-200">${{ (b.fajos * 100 * b.denominacion) |
+                                number:'1.2-2' }}</td>
+                            <td class="p-1 border border-gray-700 text-blue-200">${{ (b.lomos * 10 * b.denominacion) |
+                                number:'1.2-2' }}</td>
+                            <td class="p-1 border border-gray-700 text-blue-200">${{ (b.saldos * b.denominacion) |
+                                number:'1.2-2' }}</td>
+                            <td class="p-1 border border-gray-700 text-red-500 font-bold">${{ calcularTotalFila(b) |
+                                number:'1.2-2' }}</td>
+                        </tr>
+
+                        <tr class="bg-gray-700/30 font-bold">
+                            <td colspan="4" class="py-1">MONEDAS</td>
+                            <td class="text-white border border-gray-700">${{ totalMonedas | number:'1.2-2' }}</td>
+                        </tr>
+                        <tr *ngFor="let m of monedas" class="border border-gray-700">
+                            <td class="p-1 font-bold bg-gray-900/20">${{m.denominacion | number:'1.2-2'}}</td>
+                            <td class="p-1 border border-gray-700 text-blue-200">${{ (m.fajos * 100 * m.denominacion) |
+                                number:'1.2-2' }}</td>
+                            <td class="p-1 border border-gray-700 text-blue-200">${{ (m.lomos * 10 * m.denominacion) |
+                                number:'1.2-2' }}</td>
+                            <td class="p-1 border border-gray-700 text-blue-200">${{ (m.saldos * m.denominacion) |
+                                number:'1.2-2' }}</td>
+                            <td class="p-1 border border-gray-700 text-red-500 font-bold">${{ calcularTotalFila(m) |
+                                number:'1.2-2' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,305 @@
+<div class="form-container p-12">
+  <div class="flex items-center justify-between mb-8 header-minimal">
+    <h1 class="text-2xl font-bold text-white m-0 leading-none">
+      {{ esEdicion ? 'Editar Pago' : 'Agregar Nuevo Pago del Socio' }}
+    </h1>
+    <button (click)="irListaPagos()" class="btn-return flex items-center gap-2 py-1 px-3 whitespace-nowrap">
+      <span class="material-icons text-base">visibility</span>
+      <span class="text-sm">Lista de Pagos</span>
+    </button>
+
+    <div class="flex items-center gap-3">
+      <!-- <button mat-flat-button type="button" (click)="seleccionarTipo('PAGO')" class="pill-btn"
+        [class.active-pago]="tipoSeleccionado === 'PAGO'" [disabled]="esEdicion">
+        PAGO
+      </button>
+
+      <button mat-flat-button type="button" (click)="seleccionarTipo('INGRESO')" class="pill-btn"
+        [class.active-ingreso]="tipoSeleccionado === 'INGRESO'" [disabled]="esEdicion">
+        INGRESO
+      </button>
+
+      <button mat-flat-button type="button" (click)="seleccionarTipo('EGRESO')" class="pill-btn"
+        [class.active-egreso]="tipoSeleccionado === 'EGRESO'" [disabled]="esEdicion">
+        EGRESO
+      </button> -->
+      <button type="button" mat-raised-button [color]="tipoSeleccionado === 'PAGO' ? 'primary' : ''" class="pill-btn"
+        [class.active-pago]="tipoSeleccionado === 'PAGO'" (click)="seleccionarTipo('PAGO')"
+        [disabled]="esEdicion">PAGO</button>
+
+      <button type="button" mat-raised-button [color]="tipoSeleccionado === 'INGRESO' ? 'primary' : ''" class="pill-btn"
+        [class.active-ingreso]="tipoSeleccionado === 'INGRESO'" (click)="seleccionarTipo('INGRESO')"
+        [disabled]="esEdicion">INGRESO</button>
+
+      <button type="button" mat-raised-button [color]="tipoSeleccionado === 'EGRESO' ? 'primary' : ''" class="pill-btn"
+        [class.active-egreso]="tipoSeleccionado === 'EGRESO'" (click)="seleccionarTipo('EGRESO')"
+        [disabled]="esEdicion">EGRESO</button>
+    </div>
+  </div>
+
+  <div class="relative">
+    <div *ngIf="!tipoSeleccionado && !esEdicion" (click)="lanzarAlerta()" class="absolute inset-0 z-50 cursor-pointer">
+    </div>
+
+    <form [formGroup]="addPagosForm" (ngSubmit)="onSubmit()">
+      <div class="flex space-x-4">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Numero de Pago:</mat-label>
+          <input matInput formControlName="idPagos" [readonly]="esEdicion || true">
+          @if (addPagosForm.get('idPagos')?.hasError('required') && addPagosForm.get('idPagos')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPagosForm.get('idPagos')?.hasError('maxlength') && addPagosForm.get('idPagos')?.touched) {
+          <mat-error>
+            Solo acepta 4 caracteres.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Id del Socio:</mat-label>
+        <input matInput formControlName="idSocio" [readonly]="true">
+        @if (addPagosForm.get('idSocio')?.hasError('required') && addPagosForm.get('idSocio')?.touched) {
+        <mat-error>
+          El campo es obligatorio.
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Nombre del Socio:</mat-label>
+        <input matInput formControlName="nombreSocio" [readonly]="true">
+        @if (addPagosForm.get('nombreSocio')?.hasError('required') && addPagosForm.get('nombreSocio')?.touched) {
+        <mat-error>
+          El campo es obligatorio.
+        </mat-error>
+        }
+      </mat-form-field> -->
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Id Socio:</mat-label>
+          <input type="text" placeholder="Buscar ID o Nombre del Socio" matInput formControlName="idSocio"
+            [matAutocomplete]="autoSocio" [readonly]="esEdicion">
+
+          <mat-icon matSuffix *ngIf="!esEdicion" class="mat-mdc-autocomplete-panel-wrapper">search</mat-icon>
+
+          <mat-autocomplete #autoSocio="matAutocomplete" [displayWith]="displaySocioFn"
+            (optionSelected)="onSocioSelected($event)">
+            @for (option of filteredSocios | async; track option.idsocio) {
+            <mat-option [value]="option">
+              ({{option.idsocio}}) {{option?.nombresocio}}
+            </mat-option>
+            }
+          </mat-autocomplete>
+
+          @if (addPagosForm.get('idSocio')?.hasError('required') && addPagosForm.get('idSocio')?.touched) {
+          <mat-error>Debe seleccionar un socio de la lista.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nombre Socio:</mat-label>
+          <input matInput formControlName="nombreSocio" readonly>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Id del Prestamo:</mat-label>
+          <input type="text" placeholder="Buscar ID o Nombre del Socio" matInput formControlName="idPrestamos"
+            [matAutocomplete]="autoPrestamo" [readonly]="esEdicion">
+
+          <mat-icon matSuffix *ngIf="!esEdicion">search</mat-icon>
+
+          <mat-autocomplete #autoPrestamo="matAutocomplete" [displayWith]="displayPrestamoFn"
+            (optionSelected)="onPrestamoSeleccionado($event)">
+            <!-- @for (option of prestamosFiltrados | async; track option.idprestamos) {
+          <mat-option [value]="option">
+            ({{option.idprestamos}}) {{option.nombresocio}}
+          </mat-option>
+          } -->
+            <mat-option *ngFor="let p of prestamosFiltrados | async" [value]="p">
+              ({{p.idprestamos}}) {{p.nombresocio}}
+            </mat-option>
+          </mat-autocomplete>
+
+          @if (addPagosForm.get('idPrestamos')?.hasError('required') && addPagosForm.get('idPrestamos')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPagosForm.get('idPrestamos')?.hasError('maxlength') && addPagosForm.get('idPrestamos')?.touched) {
+          <mat-error>
+            Solo acepta 4 caracteres.
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="flex space-x-4">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Amotizacion:</mat-label>
+          <input matInput formControlName="amortizacion">
+          @if (addPagosForm.get('amortizacion')?.hasError('required') && addPagosForm.get('amortizacion')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPagosForm.get('amortizacion')?.hasError('pattern') && addPagosForm.get('amortizacion')?.touched) {
+          <mat-error>
+            Solo numeros.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Fecha de Amorizacion:</mat-label>
+          <input matInput [matDatepicker]="pickerAmortizacion" formControlName="fechaAmortizacion">
+          <mat-datepicker-toggle matSuffix [for]="pickerAmortizacion"></mat-datepicker-toggle>
+          <mat-datepicker #pickerAmortizacion></mat-datepicker>
+          @if (addPagosForm.get('fechaAmortizacion')?.hasError('required') &&
+          addPagosForm.get('fechaAmortizacion')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Numero de Amotizacion:</mat-label>
+          <input matInput formControlName="numAmortizacion" [readonly]="esEdicion" [readonly]="esEdicionEgreso">
+          @if (addPagosForm.get('numAmortizacion')?.hasError('required') &&
+          addPagosForm.get('numAmortizacion')?.touched)
+          {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPagosForm.get('numAmortizacion')?.hasError('pattern') && addPagosForm.get('numAmortizacion')?.touched)
+          {
+          <mat-error>
+            Solo numeros.
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="flex space-x-4">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Interes:</mat-label>
+          <input matInput formControlName="interes">
+          @if (addPagosForm.get('interes')?.hasError('required') && addPagosForm.get('interes')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPagosForm.get('interes')?.hasError('pattern') && addPagosForm.get('interes')?.touched) {
+          <mat-error>
+            Solo Numeros.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Fecha de Interes:</mat-label>
+          <input matInput [matDatepicker]="pickerInteres" formControlName="fechaInteres">
+          <mat-datepicker-toggle matSuffix [for]="pickerInteres"></mat-datepicker-toggle>
+          <mat-datepicker #pickerInteres></mat-datepicker>
+          @if (addPagosForm.get('fechaInteres')?.hasError('required') && addPagosForm.get('fechaInteres')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Numero de Interes:</mat-label>
+          <input matInput formControlName="numInteres" [readonly]="esEdicion" [readonly]="esEdicionEgreso">
+          @if (addPagosForm.get('numInteres')?.hasError('required') && addPagosForm.get('numInteres')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPagosForm.get('numInteres')?.hasError('pattern') && addPagosForm.get('numInteres')?.touched) {
+          <mat-error>
+            Solo numeros.
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Comentario:</mat-label>
+        <input matInput formControlName="comentario">
+        @if (addPagosForm.get('comentario')?.hasError('required') && addPagosForm.get('comentario')?.touched) {
+        <mat-error>
+          El campo es obligatorio.
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- <div class="fila-detalles">
+      <input [value]="datosPrestamoSeleccionado?.montoprestado | currency" readonly placeholder="Monto Prestado">
+      <input [value]="datosPrestamoSeleccionado?.fechaPrestamo | date" placeholder="Fecha Prestamo" readonly>
+      <input [value]="datosPrestamoSeleccionado?.plazoPrestamo" placeholder="Plazo Prestamo" readonly>
+      <input [value]="datosPrestamoSeleccionado?.cuotaPrestamo | currency" placeholder="Cuota Prestamo" readonly>
+      <input [value]="datosPrestamoSeleccionado?.letrasPagadas" placeholder="Letras Pagadas" readonly>
+      <input [value]="datosPrestamoSeleccionado?.letrasPendientes" placeholder="Letras Pendiente" readonly>
+      <input [value]="datosPrestamoSeleccionado?.amortizacionPendiente | currency" placeholder="Amortizacion Pendiente"
+        readonly>
+      <input [value]="datosPrestamoSeleccionado?.interesPendiente | currency" placeholder="Interes Pendiente" readonly>
+    </div> -->
+
+
+      <div class="flex space-x-4 justify-center">
+        <mat-form-field class="input-informativo">
+          <mat-label>Monto:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.montoPrestado | currency" readonly>
+        </mat-form-field>
+        <mat-form-field class="input-informativo">
+          <mat-label>Fecha:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.fechaPrestamo | date" readonly>
+        </mat-form-field>
+        <mat-form-field class="input-informativo">
+          <mat-label>Plazo:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.plazoPrestamo " readonly>
+        </mat-form-field>
+        <mat-form-field class="input-informativo">
+          <mat-label>Cuota:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.cuotaPrestamo | currency" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="flex space-x-4 justify-center">
+        <mat-form-field class="input-informativo">
+          <mat-label>Letras Pagadas:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.letrasPagadas " readonly>
+        </mat-form-field>
+        <mat-form-field class="input-informativo">
+          <mat-label>Letras Pendientes:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.letrasPendientes " readonly>
+        </mat-form-field>
+        <mat-form-field class="input-informativo">
+          <mat-label>Amortización Pendiente:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.amortizacionPendiente | currency" readonly>
+        </mat-form-field>
+        <mat-form-field class="input-informativo">
+          <mat-label>Interés Pendiente:</mat-label>
+          <input matInput [value]="datosPrestamoSeleccionado?.interesPendiente | currency" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="flex space-x-4">
+        <button mat-raised-button color="primary" type="submit" *ngIf="!addPagosForm.invalid" class="btn-agregar">
+          {{ esEdicion ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button (click)="limpiarCampos()" mat-raised-button color="primary" type="button" [disabled]="esEdicion"
+          class="button">
+          Limpiar
+        </button>
+        <button (click)="irASocio()" mat-raised-button color="primary" type="button" class="button">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

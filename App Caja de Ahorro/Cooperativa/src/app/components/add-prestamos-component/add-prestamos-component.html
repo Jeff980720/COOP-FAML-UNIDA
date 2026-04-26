@@ -1,0 +1,430 @@
+<div class="form-container p-12">
+  <div class="flex items-center justify-between mb-8 header-minimal w-full gap-4 px-4">
+
+    <div class="flex items-center gap-4">
+      <h1 class="text-xl font-bold text-white m-0 leading-none whitespace-nowrap">
+        {{ esEdicion ? 'Editar Préstamo / Ayuda' : 'Nuevo Préstamo' }}
+      </h1>
+      <button (click)="irListaPrest()" class="btn-return flex items-center gap-2 py-1 px-3 whitespace-nowrap">
+        <span class="material-icons text-base">visibility</span>
+        <span class="text-xs uppercase font-bold">Lista de Préstamos</span>
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2 border-x border-gray-700 px-4">
+      <button mat-flat-button type="button" (click)="seleccionarTipo('PRESTAMO')" class="pill-btn text-xs"
+        [class.active-prestamo]="tipoSeleccionado === 'PRESTAMO'" [disabled]="esEdicion">
+        PRESTAMO
+      </button>
+      <button mat-flat-button type="button" (click)="seleccionarTipo('AYUDA')" class="pill-btn text-xs"
+        [class.active-ayuda]="tipoSeleccionado === 'AYUDA'" [disabled]="esEdicion">
+        AYUDA
+      </button>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-semibold text-gray-400 whitespace-nowrap">Tipo de Amortización:</span>
+      <div class="flex items-center gap-2">
+        <button mat-flat-button type="button" (click)="seleccionarTipo2('FAMILIAR')" class="pill-btn text-xs"
+          [class.active-ayuda]="tipoSeleccionado2 === 'FAMILIAR'" [disabled]="esEdicion">
+          FAMILIAR
+        </button>
+        <button mat-flat-button type="button" (click)="seleccionarTipo2('FRANCESA')" class="pill-btn text-xs"
+          [class.active-ayuda]="tipoSeleccionado2 === 'FRANCESA'" [disabled]="esEdicion">
+          FRANCESA
+        </button>
+        <button mat-flat-button type="button" (click)="seleccionarTipo2('ALEMANA')" class="pill-btn text-xs"
+          [class.active-ayuda]="tipoSeleccionado2 === 'ALEMANA'" [disabled]="esEdicion">
+          ALEMANA
+        </button>
+      </div>
+    </div>
+
+  </div>
+  <div class="relative">
+    <div *ngIf="!tipoSeleccionado && !esEdicion" (click)="lanzarAlerta()" class="absolute inset-0 z-50 cursor-pointer">
+    </div>
+
+    <form class="p-12" [formGroup]="addPrestamoForm" (ngSubmit)="onSubmit()"
+      [class.opacity-40]="!tipoSeleccionado && !esEdicion" class="transition-all duration-500">
+      <div class="flex space-x-4">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Numero de Prestamo:</mat-label>
+          <!-- <input matInput formControlName="idPrestamos" [readonly]="esEdicion"> -->
+          <input matInput formControlName="idPrestamos" readonly [readonly]="esEdicion || true">
+          @if (addPrestamoForm.get('idPrestamos')?.hasError('required') && addPrestamoForm.get('idPrestamos')?.touched)
+          {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Id Socio:</mat-label>
+          <input type="text" placeholder="Buscar ID o Nombre del Socio" matInput formControlName="idSocio"
+            [matAutocomplete]="autoSocio" [readonly]="esEdicion">
+
+          <mat-icon matSuffix *ngIf="!esEdicion">search</mat-icon>
+
+          <mat-autocomplete #autoSocio="matAutocomplete" [displayWith]="displaySocioFn"
+            (optionSelected)="onSocioSelected($event)">
+            @for (option of filteredSocios | async; track option.idsocio) {
+            <mat-option [value]="option">
+              ({{option.idsocio}}) {{option?.nombresocio}}
+            </mat-option>
+            }
+          </mat-autocomplete>
+
+          @if (addPrestamoForm.get('idSocio')?.hasError('required') && addPrestamoForm.get('idSocio')?.touched) {
+          <mat-error>Debe seleccionar un socio de la lista.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Nombre Socio:</mat-label>
+          <input matInput formControlName="nombreSocio" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="flex space-x-4">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Fecha:</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaPrestamo">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (addPrestamoForm.get('fechaPrestamo')?.hasError('required') &&
+          addPrestamoForm.get('fechaPrestamo')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Monto:</mat-label>
+          <input matInput formControlName="montoPrestado" [readonly]="esEdicion">
+          @if (addPrestamoForm.get('montoPrestado')?.hasError('required') &&
+          addPrestamoForm.get('montoPrestado')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPrestamoForm.get('montoPrestado')?.hasError('pattern') &&
+          addPrestamoForm.get('montoPrestado')?.touched) {
+          <mat-error>
+            Ingresar solo numeros mayores a 0.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Plazo:</mat-label>
+          <input matInput formControlName="plazoPrestamo" [readonly]="esEdicion">
+          @if (addPrestamoForm.get('plazoPrestamo')?.hasError('required') &&
+          addPrestamoForm.get('plazoPrestamo')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPrestamoForm.get('plazoPrestamo')?.hasError('pattern') &&
+          addPrestamoForm.get('plazoPrestamo')?.touched) {
+          <mat-error>
+            Solo ingrear numeros enteros.
+          </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Interes:</mat-label>
+          <input matInput formControlName="interesPrestamo" [readonly]="esEdicion">
+          @if (addPrestamoForm.get('interesPrestamo')?.hasError('required') &&
+          addPrestamoForm.get('interesPrestamo')?.touched) {
+          <mat-error>
+            El campo es obligatorio.
+          </mat-error>
+          }
+          @if (addPrestamoForm.get('interesPrestamo')?.hasError('pattern') &&
+          addPrestamoForm.get('interesPrestamo')?.touched) {
+          <mat-error>
+            Solo ingrear numeros enteros.
+          </mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Comentario:</mat-label>
+        <input matInput formControlName="comentario">
+        @if (addPrestamoForm.get('comentario')?.hasError('required') && addPrestamoForm.get('comentario')?.touched) {
+        <mat-error>
+          El campo es obligatorio.
+        </mat-error>
+        }
+      </mat-form-field>
+
+      <div *ngIf="tipoSeleccionado2 === 'FAMILIAR'" class="resumen-container">
+        <h2 class="text-center">💰 Resumen de la Cuota y Pagos Amortizacion Familiar</h2>
+        <div class="flex space-x-4">
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Interés Mensual ($):</mat-label>
+            <input matInput formControlName="interesMensual" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Amortizacion Mensual:</mat-label>
+            <input matInput formControlName="amortizacion" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Cuota Mensual:</mat-label>
+            <input matInput formControlName="cuota" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Interés Total a Pagar:</mat-label>
+            <input matInput formControlName="interesTotal" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Monto Total a Pagar:</mat-label>
+            <input matInput formControlName="total" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="tipoSeleccionado2 === 'FRANCESA'" class="resumen-container">
+        <h2 class="text-center">💰 Resumen de la Cuota y Pagos Amortizacion Francesa</h2>
+        <div class="flex space-x-4">
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Interés Mensual ($):</mat-label>
+            <input matInput formControlName="interesMensual2" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Amortizacion Mensual:</mat-label>
+            <input matInput formControlName="amortizacion2" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Cuota Mensual:</mat-label>
+            <input matInput formControlName="cuota2" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Interés Total a Pagar:</mat-label>
+            <input matInput formControlName="interesTotal2" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Monto Total a Pagar:</mat-label>
+            <input matInput formControlName="total2" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div *ngIf="tipoSeleccionado2 === 'ALEMANA'" class="resumen-container">
+        <h2 class="text-center">💰 Resumen de la Cuota y Pagos Amortizacion Alemana</h2>
+        <div class="flex space-x-4">
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Interés Mensual ($):</mat-label>
+            <input matInput formControlName="interesMensual3" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Amortizacion Mensual:</mat-label>
+            <input matInput formControlName="amortizacion3" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Cuota Mensual:</mat-label>
+            <input matInput formControlName="cuota3" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Interés Total a Pagar:</mat-label>
+            <input matInput formControlName="interesTotal3" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Monto Total a Pagar:</mat-label>
+            <input matInput formControlName="total3" [readonly]="true">
+            <span matSuffix>$</span>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+
+    <div class="flex-row-container">
+      @if (tablaAmortizacion1.length > 0) {
+      <div *ngIf="tipoSeleccionado2 === 'FAMILIAR'" class="w-full">
+        <h2 style="margin-top: 20px;" class="text-center">🗓️ Tabla de Amortización Familiar</h2>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="tablaAmortizacion1" class="full-width">
+            <ng-container matColumnDef="periodo">
+              <th mat-header-cell *matHeaderCellDef> # </th>
+              <td mat-cell *matCellDef="let row"> {{row.periodo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="saldoInicial">
+              <th mat-header-cell *matHeaderCellDef> Saldo Inicial ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.saldoInicial | currency: 'USD':'symbol':'1.2-2'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="cuota">
+              <th mat-header-cell *matHeaderCellDef> Cuota ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.cuota | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="interes">
+              <th mat-header-cell *matHeaderCellDef> Interés ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.interes | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="amortizacion">
+              <th mat-header-cell *matHeaderCellDef> Amortización ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.amortizacion | currency: 'USD':'symbol':'1.2-2'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="saldoFinal">
+              <th mat-header-cell *matHeaderCellDef> Saldo Final ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.saldoFinal | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+      }
+      @if (tablaAmortizacion2.length > 0) {
+      <div *ngIf="tipoSeleccionado2 === 'FRANCESA'" class="w-full">
+        <h2 style="margin-top: 20px;" class="text-center">🗓️ Tabla de Amortización Francesa</h2>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="tablaAmortizacion2" class="full-width">
+            <ng-container matColumnDef="periodo">
+              <th mat-header-cell *matHeaderCellDef> # </th>
+              <td mat-cell *matCellDef="let row"> {{row.periodo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="saldoInicial">
+              <th mat-header-cell *matHeaderCellDef> Saldo Inicial ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.saldoInicial | currency: 'USD':'symbol':'1.2-2'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="cuota">
+              <th mat-header-cell *matHeaderCellDef> Cuota ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.cuota | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="interes">
+              <th mat-header-cell *matHeaderCellDef> Interés ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.interes | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="amortizacion">
+              <th mat-header-cell *matHeaderCellDef> Amortización ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.amortizacion | currency: 'USD':'symbol':'1.2-2'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="saldoFinal">
+              <th mat-header-cell *matHeaderCellDef> Saldo Final ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.saldoFinal | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+      }
+      @if (tablaAmortizacion3.length > 0) {
+      <div *ngIf="tipoSeleccionado2 === 'ALEMANA'" class="w-full">
+        <h2 style="margin-top: 20px;" class="text-center">🗓️ Tabla de Amortización Alemana</h2>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="tablaAmortizacion3" class="full-width">
+            <ng-container matColumnDef="periodo">
+              <th mat-header-cell *matHeaderCellDef> # </th>
+              <td mat-cell *matCellDef="let row"> {{row.periodo}} </td>
+            </ng-container>
+            <ng-container matColumnDef="saldoInicial">
+              <th mat-header-cell *matHeaderCellDef> Saldo Inicial ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.saldoInicial | currency: 'USD':'symbol':'1.2-2'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="cuota">
+              <th mat-header-cell *matHeaderCellDef> Cuota ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.cuota | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="interes">
+              <th mat-header-cell *matHeaderCellDef> Interés ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.interes | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="amortizacion">
+              <th mat-header-cell *matHeaderCellDef> Amortización ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.amortizacion | currency: 'USD':'symbol':'1.2-2'}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="saldoFinal">
+              <th mat-header-cell *matHeaderCellDef> Saldo Final ($) </th>
+              <td mat-cell *matCellDef="let row"> {{row.saldoFinal | currency: 'USD':'symbol':'1.2-2'}} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="flex items-center justify-center gap-4 mt-6 w-full">
+
+      <ng-container [ngSwitch]="tipoSeleccionado === 'AYUDA' ? 'AYUDA' : tipoSeleccionado2">
+
+        <ng-container *ngSwitchCase="'AYUDA'">
+          <button *ngIf="addPrestamoForm.valid" (click)="registrarPrestamo('AYUDA')" mat-raised-button
+            class="px-8 py-2 text-lg bg-yellow-500 text-black btn-agregar">
+            {{ esEdicion ? 'Editar Ayuda' : 'Agregar Ayuda' }}
+          </button>
+        </ng-container>
+
+        <button *ngSwitchCase="'FAMILIAR'" (click)="registrarPrestamo('FAMILIAR')" mat-raised-button color="primary"
+          class="px-8 py-2 text-lg btn-agregar" [disabled]="addPrestamoForm.invalid">
+          {{ esEdicion ? 'Editar Familiar' : 'Agregar Familiar' }}
+        </button>
+
+        <button *ngSwitchCase="'FRANCESA'" (click)="registrarPrestamo('FRANCESA')" mat-raised-button color="accent"
+          class="px-8 py-2 text-lg btn-agregar"
+          [disabled]="addPrestamoForm.invalid || addPrestamoForm.get('montoPrestado')?.value <= 999">
+          {{ esEdicion ? 'Editar Francesa' : 'Agregar Francesa' }}
+        </button>
+
+        <button *ngSwitchCase="'ALEMANA'" (click)="registrarPrestamo('ALEMANA')" mat-raised-button color="warn"
+          class="px-8 py-2 text-lg btn-agregar"
+          [disabled]="addPrestamoForm.invalid || addPrestamoForm.get('montoPrestado')?.value <= 999">
+          {{ esEdicion ? 'Editar Alemana' : 'Agregar Alemana' }}
+        </button>
+
+      </ng-container>
+      <button (click)="limpiarCampos()" mat-stroked-button color="primary" [disabled]="esEdicion"
+        class="px-6 py-2 transition-all duration-500 button"
+        [class.opacity-40]="(!tipoSeleccionado2 && tipoSeleccionado !== 'AYUDA') && !esEdicion">
+        Limpiar
+      </button>
+
+      <button (click)="irASocio()" mat-stroked-button color="warn" class="px-6 py-2 transition-all duration-500 button">
+        Cancelar
+      </button>
+
+    </div>
+  </div>
+</div>

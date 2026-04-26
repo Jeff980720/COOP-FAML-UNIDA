@@ -1,0 +1,82 @@
+<div class="flex flex-row items-center justify-center gap-4 mb-2 full-width">
+  <h2 class="text-2xl font-bold whitespace-nowrap full-width text-center">
+    {{ esEdicion ? 'Editar Aporte del Socio' : 'Agregar Aporte del Socio' }}
+  </h2>
+
+  <button (click)="irListaAport()" class="btn-return flex items-center gap-2 py-1 px-3 whitespace-nowrap">
+    <span class="material-icons text-base">visibility</span>
+    <span class="text-sm">Lista de Aportes</span>
+  </button>
+</div>
+<form class="p-4" [formGroup]="aporteForm">
+  <mat-form-field appearance="fill" class="full-width ">
+    <mat-label>Número de Aporte:</mat-label>
+    <input matInput formControlName="numeroAporte" [readonly]="esEdicion || true">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Fecha de Aporte:</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="fechaAporte" >
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    @if (aporteForm.get('fechaAporte')?.hasError('required') && aporteForm.get('fechaAporte')?.touched) {
+    <mat-error>La fecha es obligatoria.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width " style="margin-bottom: 20px;">
+    <mat-label>Id Socio:</mat-label>
+    <input type="text" placeholder="Buscar ID o Nombre del Socio" matInput formControlName="idSocio"
+      [matAutocomplete]="autoSocio" [readonly]="esEdicion" class="mat-mdc-autocomplete-panel-wrapper">
+
+    <mat-icon matSuffix *ngIf="!esEdicion" class="mat-mdc-autocomplete-panel-wrapper">search</mat-icon>
+
+    <mat-autocomplete #autoSocio="matAutocomplete" [displayWith]="displaySocioFn"
+      (optionSelected)="onSocioSelected($event)">
+      @for (option of filteredSocios | async; track option.idsocio) {
+      <mat-option [value]="option">
+        ({{option.idsocio}}) {{option.nombresocio}}
+      </mat-option>
+      }
+    </mat-autocomplete>
+
+    @if (aporteForm.get('idSocio')?.hasError('required') && aporteForm.get('idSocio')?.touched) {
+    <mat-error>Debe seleccionar un socio de la lista.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre Socio:</mat-label>
+    <input matInput formControlName="nombreSocio" readonly>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Aportado:</mat-label>
+    <input matInput type="number" formControlName="aportado">
+    @if (aporteForm.get('aportado')?.hasError('min') && aporteForm.get('aportado')?.touched) {
+    <mat-error>El monto debe ser positivo.</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field  class="full-width">
+    <mat-label>Comentario:</mat-label>
+    <textarea matInput formControlName="comentario"></textarea>
+  </mat-form-field>
+</form>
+
+<div class="flex space-x-4 justige-center mb-4">
+  <button (click)="registrarAporte()" mat-raised-button color="primary" type="button" *ngIf="!aporteForm.invalid"
+    class="btn-agregar ">
+    {{ esEdicion ? 'Editar Aporte' : 'Agregar Aporte' }}
+  </button>
+  <!-- <button (click)="limpiarCampos()" mat-raised-button color="primary" type="button">
+      Limpiar
+    </button> -->
+  <button (click)="limpiarCampos()" mat-raised-button color="primary" type="button" [disabled]="esEdicion"
+    class="button">
+    Limpiar
+  </button>
+  <button (click)="irASocio()" mat-raised-button color="primary" type="button" class="button">
+    Cancelar
+  </button>
+</div>

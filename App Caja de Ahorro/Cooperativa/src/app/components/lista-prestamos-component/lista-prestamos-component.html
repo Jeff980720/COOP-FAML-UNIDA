@@ -1,0 +1,108 @@
+<form [formGroup]="dashboardForm">
+    <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Socio (ID - Nombre)</mat-label>
+        <input type="text" matInput formControlName="idSocio" [matAutocomplete]="autoSocio">
+        <mat-icon matSuffix>search</mat-icon>
+
+        <mat-autocomplete #autoSocio="matAutocomplete" [displayWith]="displaySocioFn"
+            (optionSelected)="onSocioSelected($event)">
+            <mat-option *ngFor="let option of filteredSocios | async" [value]="option">
+                ({{option.idsocio}}) {{option.nombresocio}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="pickerInicio" placeholder="Fecha Inicio" formControlName="fechaInicio">
+        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+        <mat-datepicker #pickerInicio></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="pickerFin" placeholder="Fecha Fin" formControlName="fechaFin">
+        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFin></mat-datepicker>
+    </mat-form-field>
+</form>
+<table class="table table-striped tabla-equi">
+    <thead>
+        <tr class="bg-gray-800">
+            <th class="py-2 px-4 border-b col-equi">##</th>
+            <th class="py-2 px-4 border-b col-equi">Tipo</th>
+            <th class="py-2 px-4 border-b col-equi">Cod. Client</th>
+            <th class="py-2 px-4 border-b col-equi">Nombre Cliente</th>
+            <th class="py-2 px-4 border-b col-equi">Monto</th>
+            <th class="py-2 px-4 border-b col-equi">Fecha Prestamo</th>
+            <th class="py-2 px-4 border-b col-equi">Plazo</th>
+            <th class="py-2 px-4 border-b col-equi">Interes</th>
+            <th class="py-2 px-4 border-b col-equi">Total. Int</th>
+            <th class="py-2 px-4 border-b col-equi">Cuota</th>
+            <th class="py-2 px-4 border-b col-equi">Observacione</th>
+            <th class="py-2 px-4 border-b col-equi">Estatus</th>
+            <th class="py-2 px-4 border-b col-equi">Letras</th>
+
+            <th class="py-2 px-4 border-b text-right sticky-buttons">
+                <div class="flex items-center justify-end gap-2">
+                    <button (click)="irASocio()" class="btn-return" title="Inicio">
+                        <span class="material-icons">home</span>
+                    </button>
+                    <button (click)="irFormPrest()" class="btn-return" title="Regresar">
+                        <span class="material-icons">arrow_back</span>
+                    </button>
+                    <button (click)="botonDescargarPDF()" class="btn-return" title="Descargar PDF">
+                        <span class="material-icons">picture_as_pdf</span>
+                    </button>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- @for (item of prest; track $index) { -->
+        @for (item of listaPrestamos; track $index) {
+        <tr>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{$index + 1}}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b">
+                @if (item.tipo.toString().includes('AYUDA')) {
+                <span class="badge-ayuda">A-{{ prest.length - $index }}</span>
+                } @else {
+                <span class="badge-prestamo">P-{{ prest.length - $index }}</span>
+                }
+            </td>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{item.idprestamos}}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.tipo}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.idsocio}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.nombresocio}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.montoprestado}}</td>
+            <td style="text-align: start;" class="py-2 px-4 border-b">{{item.fechaprestamo| date:'dd/MM/yyyy HH:mm'}}
+            </td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.plazoprestamo}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.interesprestamo}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.interestotal}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.total| currency:'USD':'symbol' }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.comentario}}</td>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{item}}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b">
+                <span
+                    [ngClass]="{'text-green-500': item.estatus_dinamico === 'PAGADO', 'text-red-500': item.estatus_dinamico === 'PENDIENTE'}">
+                    {{ item.estatus_dinamico }}
+                </span>
+            </td>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{item}}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.letras_resumen }}</td>
+
+            <td class="acciones">
+                <button class="btn-edit" (click)="editarPrestamo(item)">
+                    ✏️
+                </button>
+
+                <button class="btn-delete" (click)="eliminarPrestamo(item.idprestamos)">
+                    🗑️
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="prest.length === 0">
+            <td colspan="6" style="text-align: center;">No hay prestamos registrados.</td>
+        </tr>
+        }
+    </tbody>
+</table>

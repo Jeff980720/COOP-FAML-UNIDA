@@ -1,0 +1,126 @@
+<form [formGroup]="dashboardForm">
+    <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Socio (ID - Nombre)</mat-label>
+        <input type="text" matInput formControlName="idSocio" [matAutocomplete]="autoSocio">
+        <mat-icon matSuffix>search</mat-icon>
+
+        <mat-autocomplete #autoSocio="matAutocomplete" [displayWith]="displaySocioFn"
+            (optionSelected)="onSocioSelected($event)">
+            <mat-option *ngFor="let option of filteredSocios | async" [value]="option">
+                ({{option.idsocio}}) {{option.nombresocio}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="pickerInicio" placeholder="Fecha Inicio" formControlName="fechaInicio">
+        <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+        <mat-datepicker #pickerInicio></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput [matDatepicker]="pickerFin" placeholder="Fecha Fin" formControlName="fechaFin">
+        <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFin></mat-datepicker>
+    </mat-form-field>
+</form>
+<table class="table table-striped tabla-equi">
+    <thead>
+        <tr>
+            <th class="py-2 px-4 border-b col-equi">##</th>
+            <th class="py-2 px-4 border-b col-equi">Tipo</th>
+            <th class="py-2 px-4 border-b col-equi">Cod. Client</th>
+            <th class="py-2 px-4 border-b col-equi">Nombre Cliente</th>
+            <th class="py-2 px-4 border-b col-equi"># Prestamo</th>
+            <th class="py-2 px-4 border-b col-equi">Pago del Monto</th>
+            <th class="py-2 px-4 border-b col-equi">Fecha Pago Monto</th>
+            <th class="py-2 px-4 border-b col-equi"># Cuota del Monto</th>
+            <th class="py-2 px-4 border-b col-equi">Pago del Interes</th>
+            <th class="py-2 px-4 border-b col-equi">Fecha Pago Interes</th>
+            <th class="py-2 px-4 border-b col-equi"># Cuota del Interes</th>
+            <th class="py-2 px-4 border-b col-equi">Comentario</th>
+            <th class="py-2 px-4 border-b text-right sticky-buttons">
+                <div class="flex items-center justify-end gap-2">
+                    <button (click)="irASocio()" class="btn-return">
+                        <span class="material-icons">home</span>
+                    </button>
+                    <button (click)="irFormPago()" class="btn-return">
+                        <span class="material-icons">arrow_back</span>
+                    </button>
+                    <button (click)="botonDescargarPDF()" class="btn-return" title="Descargar PDF">
+                        <span class="material-icons">picture_as_pdf</span>
+                    </button>
+                </div>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (item of listaPagos; track $index) {
+        <tr>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{$index + 1}}</td> -->
+            <td style="text-align: center;" class="py-2 px-4 border-b">
+                @if (item.tipo.toString().includes('INGRESO')) {
+                <span class="badge-ingreso">ING-{{ pags.length - $index }}</span>
+                }
+                @else if (item.tipo.toString().includes('EGRESO')) {
+                <span class="badge-egreso">EGR-{{ pags.length - $index }}</span>
+                }
+                @else {
+                <span class="badge-prestamo">P-{{ pags.length - $index }}</span>
+                }
+            </td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.tipo}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.idsocio }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.nombresocio}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.idprestamos}}</td>
+            <td style="text-align: start;" class="py-2 px-4 border-b">{{item.amortizacion | currency:'USD':'symbol' }}
+            </td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.fechaamortizacion| date:'dd/MM/yyyy HH:mm'
+                }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.numamortizacion}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.interes}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.fechainteres| date:'dd/MM/yyyy HH:mm' }}
+            </td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.numinteres}}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.comentario}}</td>
+
+            <td class="acciones">
+                <button class="btn-edit" (click)="editarPagos(item)">
+                    ✏️
+                </button>
+
+                <button class="btn-delete" (click)="eliminarPagos(item.idpagos)">
+                    🗑️
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="pags.length === 0">
+            <td colspan="11" style="text-align: center;">No hay pagos registrados.</td>
+        </tr>
+        }
+    </tbody>
+    <!-- <thead>
+      <tr>
+        <th class="py-2 px-4 border-b col-equi" >ID</th>
+        <th class="py-2 px-4 border-b col-equi">Fecha</th>
+        <th class="py-2 px-4 border-b col-equi">Aportado</th>
+        <th class="py-2 px-4 border-b col-equi">ID Socio</th>
+        <th class="py-2 px-4 border-b col-equi">Nombre</th>
+        <th class="py-2 px-4 border-b col-equi">Comentario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of aport">
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.idAporte }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.fechaAporte | date:'dd/MM/yyyy HH:mm' }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.aportado }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.idSocio }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.nombreSocio | currency:'USD':'symbol' }}</td>
+        <td style="text-align: center;" class="py-2 px-4 border-b">{{ item.comentario }}</td>
+      </tr>
+      
+      <tr *ngIf="aport.length === 0">
+        <td colspan="6" style="text-align: center;">No hay aportes registrados.</td>
+      </tr>
+    </tbody> -->
+</table>

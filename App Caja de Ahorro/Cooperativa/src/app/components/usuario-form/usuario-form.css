@@ -1,0 +1,31 @@
+/* Personalización de los campos de Material para el tema oscuro */
+::ng-deep .custom-field .mat-mdc-text-field-wrapper {
+  background-color: #374151 !important; /* bg-gray-700 */
+}
+
+::ng-deep .custom-field .mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important;
+}
+
+::ng-deep .custom-field .mdc-notched-outline__leading,
+::ng-deep .custom-field .mdc-notched-outline__notch,
+::ng-deep .custom-field .mdc-notched-outline__trailing {
+  border-color: #4b5563 !important; /* border-gray-600 */
+}
+
+/* Color del texto al escribir */
+::ng-deep .custom-field input {
+  color: #f3f4f6 !important;
+}
+
+/* Color de la etiqueta (Label) */
+::ng-deep .custom-field .mat-mdc-form-field-label {
+  color: #9ca3af !important;
+}
+
+/* Cambiar color cuando el campo está enfocado */
+::ng-deep .custom-field.mat-focused .mdc-notched-outline__leading,
+::ng-deep .custom-field.mat-focused .mdc-notched-outline__notch,
+::ng-deep .custom-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #3b82f6 !important; /* Azul primario */
+}

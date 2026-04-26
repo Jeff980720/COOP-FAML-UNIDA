@@ -1,0 +1,262 @@
+.btn-agregar {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-agregar:hover {
+  background-color: #39e006;
+}
+
+/* Estilos para igualar la apariencia oscura de la imagen */
+.container {
+  background-color: #1a1a2e;
+  /* Fondo oscuro principal */
+  color: white;
+  /* Texto claro */
+  min-height: 100vh;
+  padding-bottom: 50px;
+  /* Espacio al final */
+}
+
+.navbar {
+  background-color: #0f0f1a;
+  /* Barra de navegación más oscura */
+  color: white;
+  padding: 10px 20px;
+}
+
+.navbar span {
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.card {
+  background-color: #2b452b;
+  /* Fondo de la tarjeta un poco más claro que el fondo */
+  padding: 30px;
+  margin: 30px auto;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+  color: white;
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+}
+
+/* Estilo para que los inputs ocupen todo el ancho */
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Sobreescribir el tema Fill de Material para que los inputs se vean blancos */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  /* Fondo del input similar al de la imagen */
+  background-color: #ffffff;
+  border-radius: 4px 4px 0 0;
+}
+
+/* Ajuste del texto dentro del input */
+.mat-input-element {
+  color: black !important;
+  /* El texto escrito debe ser oscuro */
+}
+
+/* Ajuste del placeholder/label */
+.mat-form-field-label {
+  color: #666666 !important;
+}
+
+/* Estilo del botón */
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1.1rem;
+}
+
+.button:hover {
+  background-color: #42f41b;
+}
+
+/* Contenedor principal */
+.header-minimal {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Línea sutil de guía */
+  display: flex;
+  align-items: center;
+  /* ESTO centra el título y botones verticalmente */
+}
+
+/* Colores de estado activo */
+.active-prestamo {
+  background-color: #3f51b5 !important;
+  /* Azul Cooperativa */
+  color: white !important;
+  border-color: #3f51b5 !important;
+  box-shadow: 0 0 15px rgba(63, 81, 181, 0.3);
+}
+
+.active-ayuda {
+  background-color: #ffd740 !important;
+  /* Amarillo Ayuda */
+  color: #1a202c !important;
+  border-color: #ffd740 !important;
+  box-shadow: 0 0 15px rgba(255, 215, 64, 0.3);
+}
+
+/* Hover suave */
+.pill-btn:hover:not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-1px);
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute.inset-0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.opacity-40 {
+  opacity: 0.35;
+  filter: grayscale(0.8);
+  pointer-events: none;
+}
+
+/* Clase base para los botones de tipo (Pills) */
+.pill-btn {
+  border-radius: 50px !important;
+  height: 36px !important;
+  padding: 0 20px !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  /* Color neutro cuando no está activo */
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Colores cuando el botón está SELECCIONADO */
+.active-pago {
+  background-color: #ffffff !important;
+  /* Blanco como en tu imagen */
+  color: #1a1a2e !important;
+  /* Texto oscuro para contraste */
+  font-weight: bold;
+}
+
+.active-ingreso {
+  background-color: #3f51b5 !important;
+  /* Azul para Ingresos */
+  color: white !important;
+  box-shadow: 0 0 10px rgba(63, 81, 181, 0.5);
+}
+
+.active-egreso {
+  background-color: #f44336 !important;
+  /* Rojo para Egresos */
+  color: white !important;
+  box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+}
+
+.active-prestamo {
+  background-color: #3f51b5 !important;
+}
+
+.active-ayuda {
+  background-color: #ffd740 !important;
+  color: #000 !important;
+}
+
+::ng-deep .warning-snackbar {
+  background: #ff9800 !important;
+  color: white !important;
+}
+
+.relative {
+  position: relative;
+}
+
+.absolute.inset-0 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.opacity-40 {
+  opacity: 0.35;
+  filter: grayscale(0.8);
+  pointer-events: none;
+}
+
+/* Fondo para la lista de socios (Autocomplete) */
+::ng-deep .mat-mdc-autocomplete-panel {
+  background-color: #ffffff !important;
+  /* Fondo blanco sólido */
+  border: 1px solid #ccc !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Color del texto de los socios en la lista */
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  color: #000000 !important;
+  /* Texto negro para contraste */
+}
+
+/* Efecto al pasar el mouse sobre un socio */
+::ng-deep .mat-mdc-option:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* Fondo para el calendario (Datepicker) */
+::ng-deep .mat-datepicker-content {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+::ng-deep .mat-calendar-body-cell-content {
+  color: #000000 !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+  /* Elimina el hueco debajo del input */
+}
+
+/* ELIMINA la regla anterior que solo tenía display: none */
+
+/* Usa esta versión mejorada: */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+  /* Oculto por defecto para ahorrar espacio */
+}
+
+/* Muestra el contenedor SOLO cuando el campo es inválido y ha sido tocado */
+::ng-deep .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+  display: block !important;
+  margin-top: -5px;
+  /* Ajusta para que no desplace mucho los campos */
+}
+
+/* Asegura que el texto del error sea rojo brillante para que resalte en tu fondo oscuro */
+::ng-deep .mat-mdc-form-field-error {
+  color: #ff4d4d !important;
+  font-size: 12px;
+}

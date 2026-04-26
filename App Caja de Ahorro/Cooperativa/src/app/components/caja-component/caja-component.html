@@ -1,0 +1,69 @@
+<div>
+  <form class="p-12" [formGroup]="addCajaForm" (ngSubmit)="onSubmit()">
+
+    <!-- <div class="card"> -->
+    <div class="flex flex-row items-center justify-center gap-4 mb-6 w-full">
+      <h1 class="text-2xl font-bold whitespace-nowrap">{{ esEdicion ? 'Editar Caja' : 'Agregar Nueva Caja' }}</h1>
+      <button (click)="irListaCaja()" class="btn-return flex items-center gap-2 py-1 px-3 whitespace-nowrap">
+        <span class="material-icons text-base">visibility</span>
+        <span class="text-sm">Lista de Cierres de Caja</span>
+      </button>
+    </div>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Id de Caja:</mat-label>
+      <input matInput formControlName="idCaja" [readonly]="true">
+      @if (addCajaForm.get('idCaja')?.hasError('required') && addCajaForm.get('idCaja')?.touched) {
+      <mat-error>
+        El campo es obligatorio.
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Fecha de Cierre:</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaCaja">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      @if (addCajaForm.get('fechaCaja')?.hasError('required') && addCajaForm.get('fechaCaja')?.touched) {
+      <mat-error>
+        La fecha es obligatoria.
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Monto:</mat-label>
+      <input matInput formControlName="efectivo">
+      @if (addCajaForm.get('efectivo')?.hasError('required') && addCajaForm.get('efectivo')?.touched) {
+      <mat-error>
+        El campo es obligatorio.
+      </mat-error>
+      }
+      @if (addCajaForm.get('efectivo')?.hasError('pattern') && addCajaForm.get('efectivo')?.touched) {
+      <mat-error>
+        Solo ingresar numeros.
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Comentario:</mat-label>
+      <textarea matInput formControlName="comentario"></textarea>
+    </mat-form-field>
+
+    <div class="flex space-x-4">
+      <button mat-raised-button color="primary" type="submit" [disabled]="addCajaForm.invalid" class="btn-agregar">
+        {{ esEdicion ? 'Actualizar' : 'Guardar' }}
+      </button>
+      <button (click)="limpiarCampos()" mat-raised-button color="primary" type="submit" [disabled]="esEdicion"
+        class="button">
+        Limpiar
+      </button>
+      <button (click)="irASocio()" mat-raised-button color="primary" type="submit" class="button">
+        Cancelar
+      </button>
+    </div>
+  </form>
+  <!-- </div> -->
+</div>

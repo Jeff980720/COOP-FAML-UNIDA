@@ -1,0 +1,131 @@
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #111827;
+    /* Fondo oscuro similar a tu dashboard */
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #1f2937;
+    /* Gris oscuro */
+    color: white;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+mat-card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+mat-card-subtitle {
+    text-align: center;
+    color: #9ca3af;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.login-button {
+    margin-top: 10px;
+    padding: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Ajuste para que los labels de Material se vean bien en fondo oscuro */
+::v-deep .mat-mdc-form-field-label {
+    color: #9ca3af !important;
+}
+
+::v-deep .mat-mdc-text-field-wrapper {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #111827;
+    /* Fondo oscuro */
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 24px;
+    background-color: #1f2937 !important;
+    /* Gris oscuro */
+    color: white !important;
+    border-radius: 12px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+mat-card-title,
+mat-card-subtitle {
+    color: white !important;
+    text-align: center;
+}
+
+button {
+    margin-top: 8px;
+    padding: 24px !important;
+    font-weight: bold;
+}
+
+/* login.css */
+
+/* ... (mantén tus estilos anteriores de centrado) ... */
+
+/* Quita la línea vertical divisoria de los iconos en Material */
+::v-deep .mat-mdc-form-field-icon-suffix {
+  border: none !important;
+}
+
+/* Elimina cualquier borde o línea extra en los contenedores de input */
+::v-deep .mat-mdc-form-field-flex {
+  border-right: none !important;
+}
+
+/* Estilo para los campos para que no se vean apretados */
+.custom-field {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+/* Ajuste del botón de ingresar */
+.login-btn {
+  background-color: transparent !important;
+  color: white !important;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-top: 15px;
+  letter-spacing: 2px;
+}
+
+/* Opcional: Color de enfoque del borde para que no sea blanco puro */
+::v-deep .mat-mdc-outlined-button {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}

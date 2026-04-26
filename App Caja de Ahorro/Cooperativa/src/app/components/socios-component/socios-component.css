@@ -1,0 +1,52 @@
+.btn-agregar {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-agregar:hover {
+  background-color: #0056b3;
+}
+
+.tabla-equi {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.col-equi {
+  width: 20%;
+  text-align: center;
+}
+
+.bg-gray-800 {
+  background-color: #000000;
+  /* Un gris muy oscuro para contraste */
+}
+
+.text-yellow-500 {
+  color: #ecc94b;
+  /* Color oro para resaltar que son sumas importantes */
+}
+
+/* Para que la fila de totales se mantenga fija si haces scroll (opcional) */
+thead tr:nth-child(2) {
+  position: sticky;
+  top: 45px;
+  /* Ajusta según el alto de tu encabezado principal */
+  z-index: 10;
+}
+
+/* Para asegurar que la tabla use todo el ancho posible */
+:host {
+  display: block;
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  border-spacing: 0;
+}

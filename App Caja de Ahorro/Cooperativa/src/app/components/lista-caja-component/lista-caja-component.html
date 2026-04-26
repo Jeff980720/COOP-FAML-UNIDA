@@ -1,0 +1,56 @@
+<table class="table table-striped tabla-equi">
+    <thead>
+        <tr>
+            <th class="py-2 px-4 border-b col-equi">##</th>
+            <th class="py-2 px-4 border-b col-equi">Efectivo</th>
+            <th class="py-2 px-4 border-b col-equi">Fecha Pago</th>
+            <th class="py-2 px-4 border-b col-equi">Comentario</th>
+            <button (click)="irASocio()" class="btn-return">
+                <span class="material-icons">home</span>
+            </button>
+            <button (click)="irFormCaja()" class="btn-return">
+                <span class="material-icons">arrow_back</span>
+            </button>
+            <button (click)="botonDescargarPDF()" class="btn-return" title="Descargar PDF">
+                <span class="material-icons">picture_as_pdf</span>
+            </button>
+        </tr>
+    </thead>
+    <tbody>
+        @for (item of liquido; track $index) {
+        <tr>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{liquido.length - $index}}</td>
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">
+                @if (item.idcaja.toString().includes('INGRESO')) {
+                <span class="badge-ingreso">ING-{{ $index + 1 }}</span>
+                }
+                @else if (item.idcaja.toString().includes('EGRESO')) {
+                <span class="badge-egreso">EGR-{{ $index + 1 }}</span>
+                }
+                @else {
+                <span class="badge-prestamo">P-{{ $index + 1 }}</span>
+                }
+            </td> -->
+            <!-- <td style="text-align: center;" class="py-2 px-4 border-b">{{item.idcaja}}</td> -->
+            <td style="text-align: start;" class="py-2 px-4 border-b">{{item.efectivo| currency:'USD':'symbol' }}
+            </td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.fechacaja| date:'dd/MM/yyyy HH:mm'
+                }}</td>
+            <td style="text-align: center;" class="py-2 px-4 border-b">{{item.comentario}}</td>
+
+            <td class="acciones">
+                <button class="btn-edit" (click)="editarCaja(item)">
+                    ✏️
+                </button>
+
+                <button class="btn-delete" (click)="eliminarCaja(item.idcaja)">
+                    🗑️
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="liquido  .length === 0">
+            <td colspan="11" style="text-align: center;">No hay pagos registrados.</td>
+        </tr>
+        }
+    </tbody>
+</table>

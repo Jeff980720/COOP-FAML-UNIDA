@@ -1,0 +1,48 @@
+/* 1. Contenedor de la tabla para scroll interno */
+.table-container {
+  max-height: calc(100vh - 100px); /* Restamos la altura del nav y el footer */
+  overflow-y: auto;
+  position: relative;
+}
+
+/* 2. Encabezado de la tabla (TH) */
+thead th {
+  position: sticky;
+  top: 60px; /* Si la tabla está dentro de un contenedor con scroll propio (.table-container) */
+  z-index: 40;
+  background-color: #1a1d21; /* El color oscuro de tu app */
+  box-shadow: inset 0 -1px 0 #334155;
+}
+
+/* 3. Si decides NO usar .table-container y quieres que el header 
+      de la tabla se pegue justo debajo del menú principal: */
+.sticky-header-under-nav {
+  position: sticky;
+  top: 65px; /* Altura de tu barra de navegación (h-16) */
+  z-index: 30;
+  background-color: #111827;
+}
+
+/* Reducir el padding de todas las celdas del encabezado */
+.tabla-equi thead th {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    line-height: 1.2;
+    font-size: 0.85rem; /* Opcional: texto un poco más pequeño para ahorrar espacio */
+}
+
+/* Si usas el contenedor con scroll, ajusta el top para que pegue al menú */
+.table-container {
+    margin-top: 0px !important; /* Elimina margen superior */
+    padding-top: 0px !important;
+}
+
+/* Ajuste específico para la celda de los botones de navegación */
+.sticky-buttons {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.btn-return {
+    transform: scale(0.85); /* Hace los botones un poco más pequeños */
+}

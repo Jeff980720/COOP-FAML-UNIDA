@@ -1,0 +1,241 @@
+.btn-agregar {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-agregar:hover {
+    background-color: #00b327;
+}
+
+/* Estilos para igualar la apariencia oscura de la imagen */
+.container {
+    background-color: #1a1a2e;
+    /* Fondo oscuro principal */
+    color: white;
+    /* Texto claro */
+    min-height: 100vh;
+    padding-bottom: 50px;
+    /* Espacio al final */
+}
+
+.navbar {
+    background-color: #0f0f1a;
+    /* Barra de navegación más oscura */
+    color: white;
+    padding: 10px 20px;
+}
+
+.navbar span {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.card {
+    background-color: #2b452b;
+    /* Fondo de la tarjeta un poco más claro que el fondo */
+    padding: 10px;
+    margin: 10px auto;
+    max-width: 700px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: rgb(194, 190, 190);
+    margin-bottom: 25px;
+    font-size: 1.5rem;
+}
+
+/* Estilo para que los inputs ocupen todo el ancho */
+.full-width {
+    width: 100%;
+    /* margin-bottom: 10px;
+    padding-bottom: 2px; */
+}
+
+/* Sobreescribir el tema Fill de Material para que los inputs se vean blancos */
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    /* Fondo del input similar al de la imagen */
+    background-color: #ffffff;
+    border-radius: 4px 4px 0 0;
+}
+
+/* Ajuste del texto dentro del input */
+.mat-input-element {
+    color: black !important;
+    /* El texto escrito debe ser oscuro */
+}
+
+/* Ajuste del placeholder/label */
+.mat-form-field-label {
+    color: #8412c1 !important;
+}
+
+/* Estilo del botón */
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.1rem;
+}
+
+.button:hover {
+    background-color: #156403;
+}
+
+.btn-return {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Espacio entre el ojo y el texto */
+    white-space: nowrap;
+    /* Evita que el texto del botón se parta en dos líneas */
+}
+
+.btn-return .material-icons {
+    font-size: 20px;
+}
+
+/* Esto asegura que la lista siempre flote sobre el formulario */
+.mat-mdc-autocomplete-panel {
+    background-color: #2860b9 !important;
+    /* Color oscuro acorde a tu tema */
+    border: 1px solid #444;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.mat-mdc-option {
+    background-color: white;
+    color: rgb(151, 22, 22) !important;
+}
+
+.mat-mdc-option:hover {
+    background-color: #334155 !important;
+}
+
+/* Asegura que el panel de autocompletado tenga un fondo sólido y legible */
+.mat-mdc-autocomplete-panel {
+    background-color: #ffffff !important;
+    /* Fondo blanco para contraste */
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Estilo para las opciones dentro de la lista */
+.mat-mdc-option {
+    color: #000000 !important;
+    /* Texto negro para que sea legible */
+}
+
+.mat-mdc-option:hover {
+    background-color: #e2e8f0 !important;
+    /* Gris claro al pasar el mouse */
+}
+
+/* CORRECCIÓN PARA EL CALENDARIO (Datepicker) */
+.mat-datepicker-content {
+    background-color: #ffffff !important;
+    /* Fondo sólido para el calendario */
+    color: black !important;
+}
+
+.mat-calendar-body-cell-content {
+    color: black !important;
+}
+
+/* Reduce el espacio que reserva Material para errores debajo de cada input */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+}
+
+/* Solo muestra el espacio si hay un error real (evita saltos de línea vacíos) */
+::ng-deep .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+    display: block !important;
+}
+
+/* Reduce la altura interna de los campos para que estén más juntos */
+.full-width {
+    width: 100%;
+    margin-bottom: 10px !important;
+    /* Acerca los campos entre sí */
+}
+
+/* Fondo para la lista de socios (Autocomplete) */
+::ng-deep .mat-mdc-autocomplete-panel {
+  background-color: #ffffff !important; /* Fondo blanco sólido */
+  border: 1px solid #ccc !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Color del texto de los socios en la lista */
+::ng-deep .mat-mdc-option .mdc-list-item__primary-text {
+  color: #000000 !important; /* Texto negro para contraste */
+}
+
+/* Efecto al pasar el mouse sobre un socio */
+::ng-deep .mat-mdc-option:hover {
+  background-color: #f0f0f0 !important;
+}
+
+/* Fondo para el calendario (Datepicker) */
+::ng-deep .mat-datepicker-content {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+}
+
+::ng-deep .mat-calendar-body-cell-content {
+  color: #000000 !important;
+}
+
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+  /* Elimina el hueco debajo del input */
+}
+
+/* ELIMINA la regla anterior que solo tenía display: none */
+
+/* Usa esta versión mejorada: */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+  /* Oculto por defecto para ahorrar espacio */
+}
+
+/* Muestra el contenedor SOLO cuando el campo es inválido y ha sido tocado */
+::ng-deep .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+  display: block !important;
+  margin-top: -5px;
+  /* Ajusta para que no desplace mucho los campos */
+}
+
+/* Asegura que el texto del error sea rojo brillante para que resalte en tu fondo oscuro */
+::ng-deep .mat-mdc-form-field-error {
+  color: #ff4d4d !important;
+  font-size: 12px;
+}
+
+/* ELIMINA la regla anterior que solo tenía display: none */
+
+/* Usa esta versión mejorada: */
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+  /* Oculto por defecto para ahorrar espacio */
+}
+
+/* Muestra el contenedor SOLO cuando el campo es inválido y ha sido tocado */
+::ng-deep .mat-form-field-invalid .mat-mdc-form-field-subscript-wrapper {
+  display: block !important;
+  margin-top: -5px;
+  /* Ajusta para que no desplace mucho los campos */
+}
+
+/* Asegura que el texto del error sea rojo brillante para que resalte en tu fondo oscuro */
+::ng-deep .mat-mdc-form-field-error {
+  color: #ff4d4d !important;
+  font-size: 12px;
+}

@@ -1,0 +1,28 @@
+/* Clase para resaltar valores monetarios */
+.monto-resaltado {
+  color: #00ffcc; /* Un cian brillante */
+  font-weight: 600;
+}
+
+/* Si quieres un color diferente para el encabezado de totales */
+.total-header {
+  color: #ffcc00; /* Un amarillo/oro para los totales de arriba */
+}
+.single-line-title {
+  white-space: nowrap;      /* Evita que el texto salte a la siguiente línea */
+  overflow: hidden;         /* Oculta lo que sobre si la pantalla es muy pequeña */
+  text-overflow: ellipsis;  /* Añade "..." si de plano no cabe (opcional) */
+  display: flex;            /* Usamos flex para alinear todo perfectamente */
+  align-items: center;
+  gap: 15px;               /* Espacio uniforme entre cada dato */
+  font-size: 1.25rem;       /* Ajustamos un poco el tamaño para que quepa mejor */
+}
+
+.divider {
+  color: #555;              /* Un color más tenue para las barras separadoras */
+  font-weight: 300;
+}
+
+.total-header {
+  color: #ffcc00;           /* El color oro que definimos para los totales */
+}
